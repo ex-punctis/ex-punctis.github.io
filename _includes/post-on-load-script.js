@@ -1,4 +1,4 @@
-//<script type="text/javascript">
+<script type="text/javascript">
 
 //$(document).ready(function() {
 	//$(".expand-icon").fadeOut(100);
@@ -16,5 +16,5 @@
 //);
 
 
-//</script>
+</script>
 
