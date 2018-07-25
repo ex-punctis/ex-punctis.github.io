@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html lang="{{ site.lang | default: "en-CA" }}">
+  <head>
+	{% include head.html %}
+    {% seo %}
+  </head>
+  <body>
+    {% include header.html %}
+    <section class="main-content">
+      {{ content }}
+      {% include footer.html %}
+    </section>
+    {% if site.google_analytics %}
+    	{% include google_analytics.js %}
+    {% endif %}
+  </body>
+</html>

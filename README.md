@@ -1,2 +1,1 @@
-# ex-punctis.github.io
-www.expunctis.com
+https://www.expunctis.com/
