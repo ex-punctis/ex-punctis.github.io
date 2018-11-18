@@ -1,7 +1,7 @@
 ---
 layout: post
 title:  Popularity of car colours in the Greater Toronto Area
-excerpt: According to a survey conducted in 2012 by PPG Industries, white (21%) and black (19%) were the two most popular colours in North America followed closely by silver and grey (16% each). Red and blue accounted for 10 and 8% respectively. I decided to test this data by taking photographs of an intersection in Mississauga, Ontario and analyzing them with the help of YOLOv3, OpenCV and scikit-learn libraries. 
+excerpt: According to a survey conducted in 2012 by PPG Industries, white (21%) and black (19%) were the two most popular colours in North America followed closely by silver and grey (16% each). Red and blue accounted for 10 and 8% respectively. I decided to test this data by taking photographs of an intersection in Mississauga, Ontario and analyzing them with the help of YOLOv3 as well as OpenCV and scikit-learn libraries. 
 ---
 
 ## Popularity of car colours in the Greater Toronto Area
@@ -20,18 +20,13 @@ excerpt: According to a survey conducted in 2012 by PPG Industries, white (21%) 
 
 ### Summary
 
-According to a [survey](https://web.archive.org/web/20121013184631/http://www.ppg.com/en/newsroom/news/Pages/20121010A.aspx) conducted in 2012 by PPG Industries, white (21%) and black (19%) were the two most popular colours in North America followed closely by silver and grey (16% each). Red and blue accounted for 10 and 8% respectively. I decided to test this data by taking photographs of an intersection in Mississauga, Ontario and analyzing them with the help of YOLOv3, OpenCV and scikit-learn libraries. The results of analysis (>600 cars) can be summarized by the following figure:
+According to a [survey](https://web.archive.org/web/20121013184631/http://www.ppg.com/en/newsroom/news/Pages/20121010A.aspx) conducted in 2012 by PPG Industries, white (21%) and black (19%) were the two most popular colours in North America followed closely by silver and grey (16% each). Red and blue accounted for 10 and 8% respectively. I decided to test this data by taking photographs of an intersection in Mississauga, Ontario and analyzing them with the help of YOLOv3 as well as OpenCV and scikit-learn libraries. The results of my analysis (>600 cars) can be summarized by the following  histogram figure:
 
 {% include one-med-image.html center-img = '/images/2018-11-17/rgb-ac-spectrum.svg' %}
 
-Please note these colours represent the 
-
-Note black appears grey because of reflections. There may be additional distortions depending on your monitor calibration.
-
-
 ### Data collection
 
-A Canon PowerShot S100 12 MP camera with [CHDK firmware](http://chdk.wikia.com/wiki/CHDK) was mounted on a tripod and zoomed on a portion of an intersection from above. Aperture, exposure and white balance were set manually. Photographs were taken automatically every 20 seconds while the battery laster (approximately 90 min). Photographing was carried out between 2 and 4 pm DST for two days. Unfortunately, seasonal weather changes made it impossible to continue shooting. I manually eliminated the photographs with duplicate objects and was left with 141 unique jpg images at the end. 
+A Canon PowerShot S100 12 MP camera with [CHDK firmware](http://chdk.wikia.com/wiki/CHDK) was mounted on a tripod and zoomed on a portion of an intersection from above. Aperture, exposure and white balance were set manually. Photographs were taken automatically every 20 seconds while the battery lasted (approximately 90 min). Photographing was carried out between 2 and 4 pm DST for two days. Unfortunately, seasonal weather changes made it impossible to continue shooting. I manually eliminated the photographs with duplicate objects and was left with 141 unique jpg images at the end. 
 
 ### Data analysis
 
@@ -118,13 +113,13 @@ cd <darknet directory>
 ./darknet detect cfg/yolov3.cfg yolov3.weights < /~/Desktop/images/imagelist.txt
 ```
 
-The terminal output needs to be saved into `_detected_objects.txt`
+The terminal output needs to be saved into `_detected_objects.txt` in the image directory.
 
 
 
 ### Extraction of car colour information
 
-The first cell in `cars-get-colours.ipynb` takes `_detected_objects.txt` (should be located in the directory with your images) and reads it line by line converting the data into dictionaries. Car objects are extracted from the original images, their height:width ratio is verified to be within 0.3 and 1 to reject defective objects, and a line of pixels is sampled at 30% of the height from the top of the object. K-means is applied to the line array to find 5 colour clusters, and the cluster with the most points is presumed to be the colour of the car which is appended to an array that is saved once all images have been processed.
+The first cell in [cars-get-colours.ipynb](https://github.com/ex-punctis/car-colours/blob/master/cars-get-colours.ipynb) takes `_detected_objects.txt` (should be located in the directory with your images) and reads it line by line converting the data into dictionaries. Car objects are extracted from the original images, their height:width ratio is verified to be within 0.3 and 1 to reject the defective objects, and a line of pixels is sampled at 30% of the height from the top of the object. K-means is applied to the line array to find 5 colour clusters, and the cluster with the most points is presumed to be the colour of the car which is appended to an array that is saved once all images have been processed.
 
 The image below illustrates successful colour determination.
 
