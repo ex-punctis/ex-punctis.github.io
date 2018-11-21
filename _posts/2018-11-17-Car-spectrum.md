@@ -10,8 +10,8 @@ excerpt: According to a survey conducted in 2012 by PPG Industries, white (21%) 
 - [Summary](#summary)
 - [Data collection](#data-collection)
 - [Data Analysis](#data-analysis)
-	- [Extraction of car colour information](#car-detection)
-	- [Clustering of car colours](#car-detection)
+	- [Extraction of car colour information](#extraction-of-car-colour-information)
+	- [Clustering of car colours](#clustering-of-car-colours)
 		- [K-means and mean shift in RGB](#k-means-and-mean-shift-in-rgb)
 		- [K-means and mean shift in HCV](#k-means-and-mean-shift-in-hcv)
 		- [K-means and mean shift in L\*a\*b\*](#k-means-and-mean-shift-in-lab)
@@ -147,13 +147,20 @@ I decided to attempt a variety of scikit-learn [clustering methods](https://scik
 
 {% include two-small-images.html left-img = '/images/2018-11-17/hcv-3d.svg' right-img = '/images/2018-11-17/lab-3d.svg' %}
 
+[Interactive plot in RGB colour space](/images/2018-11-17/rgb-3d-webgl.html)
+
+[Interactive plot in HCV colour space](/images/2018-11-17/hcv-3d-webgl.html)
+
+[Interactive plot in Lab colour space](/images/2018-11-17/lab-3d-webgl.html)
+
+
 The lack of green shades in the dataset makes it possible to project the data points onto a surface with little information loss. The result of SVD in RGB space is presented below:
 
 2D representation 
 
 {% include one-small-image.html center-img = '/images/2018-11-17/pca-all.svg' %}
 
-The parameters of the clustering methods were chosen semi-arbitrarily. The goal was to preserve the distinction between the white, grey and black cars, maintain over 10 shades of grey and have the cluster centers appear in positions that could be mapped to a line in a harmonious arrangement based on hue and brightness. The following plots show the clusters determined as well as their frequencies.
+The parameters of the clustering methods were chosen semi-arbitrarily. The goal was to preserve the distinction between the white, grey and black cars, maintain over 10 shades of grey and have the cluster centers appear in positions that could be mapped to a line in a harmonious arrangement based on hue and brightness. All data was standardized (based on z-score) prior to clustering. The following plots show the clusters determined as well as their frequencies.
 
 
 #### K-means and mean shift in RGB
@@ -210,4 +217,4 @@ sort_ind = np.concatenate((blue_ind[::-1], grey_ind, yel_ind, red_ind[::-1]))
 
 {% include one-med-image.html center-img = '/images/2018-11-17/rgb-ac-spectrum.svg' %}
 
-Please note black cars appear grey in the figure above because of reflections and the lack of [visual context](https://www.illusionsindex.org/ir/checkershadow). There may be additional distortions depending on your display settings.
+Please note black cars appear grey in the figure above because of reflections and the lack of [visual context](https://www.illusionsindex.org/ir/checkershadow). There may be additional distortions depending on your display settings. The grey frame represents the average tone of the asphalt
