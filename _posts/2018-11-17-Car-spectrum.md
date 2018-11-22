@@ -147,6 +147,8 @@ I decided to attempt a variety of scikit-learn [clustering methods](https://scik
 
 {% include two-small-images.html left-img = '/images/2018-11-17/hcv-3d.svg' right-img = '/images/2018-11-17/lab-3d.svg' %}
 
+It may be easier to explore the data (after standardization) with the following interactive plots generated with the help of [three.js](https://threejs.org/) (webGL support is required to render these plots):
+
 [Interactive plot in RGB colour space](/images/2018-11-17/rgb-3d-webgl.html)
 
 [Interactive plot in HCV colour space](/images/2018-11-17/hcv-3d-webgl.html)
