@@ -21,4 +21,5 @@ layout: default
 - [MathJax](https://www.mathjax.org/)
 - [Feather SVG icons](https://feathericons.com)
 - [ggplot2](https://ggplot2.tidyverse.org/)
+- [three.js](https://threejs.org/)
 

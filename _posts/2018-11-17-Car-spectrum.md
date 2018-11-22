@@ -20,7 +20,7 @@ excerpt: According to a survey conducted in 2012 by PPG Industries, white (21%) 
 
 ### Summary
 
-According to a [survey](https://web.archive.org/web/20121013184631/http://www.ppg.com/en/newsroom/news/Pages/20121010A.aspx) conducted in 2012 by PPG Industries, white (21%) and black (19%) were the two most popular colours in North America followed closely by silver and grey (16% each). Red and blue accounted for 10 and 8% respectively. I decided to test this data by taking photographs of an intersection in Mississauga, Ontario and analyzing them with the help of YOLOv3 as well as OpenCV and scikit-learn libraries. The results of my analysis (>600 cars) can be summarized by the following  histogram figure:
+According to a [survey](https://web.archive.org/web/20121013184631/http://www.ppg.com/en/newsroom/news/Pages/20121010A.aspx) conducted in 2012 by PPG Industries, white (21%) and black (19%) were the two most popular colours in North America followed closely by silver and grey (16% each). Red and blue accounted for 10 and 8% respectively. I decided to test this data by taking photographs of an intersection in Mississauga, Ontario and analyzing them with the help of YOLOv3 as well as OpenCV and scikit-learn libraries. The results of my analysis (approximately 600 cars) can be summarized by the following  bar chart:
 
 {% include one-med-image.html center-img = '/images/2018-11-17/rgb-ac-spectrum.svg' %}
 
@@ -40,12 +40,7 @@ cd darknet
 wget https://pjreddie.com/media/files/yolov3.weights
 ```
 
-The model will only draw boxes around the detected objects by default as in the photo below:
-
-{% include one-med-image.html center-img = '/images/2018-11-17/example-yolo.jpg' %}
-
-
-In order to print the file path and the coordinates of the boxes, the following changes have to be made.
+By default, the model will only draw boxes around the detected objects. In order to print file paths and box coordinates, the following changes need to be made.
 
 1 Edit `void draw_detections(...)` in src/image.c: 
 
@@ -76,7 +71,7 @@ for(j = 0; j < classes; ++j){
 			strcat(labelstr, ", ");
 			strcat(labelstr, names[j]);
 		}
-		// insert << HERE >>>   
+		// <<< insert HERE >>>   
 	}
 }
 ```
@@ -119,7 +114,7 @@ The terminal output needs to be saved into `_detected_objects.txt` in the image 
 
 ### Extraction of car colour information
 
-The first cell in [cars-get-colours.ipynb](https://github.com/ex-punctis/car-colours/blob/master/cars-get-colours.ipynb) takes `_detected_objects.txt` (should be located in the directory with your images) and reads it line by line converting the data into dictionaries. Car objects are extracted from the original images, their height:width ratio is verified to be within 0.3 and 1 to reject the defective objects, and a line of pixels is sampled at 30% of the height from the top of the object. K-means is applied to the line array to find 5 colour clusters, and the cluster with the most points is presumed to be the colour of the car which is appended to an array that is saved once all images have been processed.
+The first cell in [cars-get-colours.ipynb](https://github.com/ex-punctis/car-colours/blob/master/cars-get-colours.ipynb) takes `_detected_objects.txt` (should be located in the directory with your images) and reads it line by line converting the data into dictionaries. Car objects are extracted from the original images, their height:width ratio is verified to be within 0.3 and 1 to reject the defective objects, and a line of pixels is sampled at 30% of the height from the top of the object. K-means is applied to the line array to find 5 colour clusters, and the cluster with the most points is presumed to be the colour of the car, which is appended to an array that is saved once all images have been processed.
 
 The image below illustrates successful colour determination.
 
@@ -129,7 +124,7 @@ Oddly shaped objects are skipped because K-means clustering often won't identify
 
 {% include one-small-image.html center-img = '/images/2018-11-17/bad.png' %}
 
-In some cases K-means fails even with good images:
+In some cases K-means fails (sort of) even with good images:
 
 {% include one-small-image.html center-img = '/images/2018-11-17/kmeans-failure.png' %}
 
@@ -137,7 +132,7 @@ The overall colour detection error rate for my dataset was approximately 6%. One
 
 ### Clustering of car colours
 
-I decided to attempt a variety of scikit-learn [clustering methods](https://scikit-learn.org/stable/modules/clustering.html) in three different colour spaces (RGB, HCV and L\*a\*b\*). Below is the raw dataset plotted in each of the three coordinate systems.
+I decided to attempt a variety of scikit-learn [clustering methods](https://scikit-learn.org/stable/modules/clustering.html) on the standardized data in three different colour spaces (RGB, HCV and L\*a\*b\*). Below is the raw dataset plotted in each of the three coordinate systems.
 
 3D representation in RGB
 
@@ -147,7 +142,7 @@ I decided to attempt a variety of scikit-learn [clustering methods](https://scik
 
 {% include two-small-images.html left-img = '/images/2018-11-17/hcv-3d.svg' right-img = '/images/2018-11-17/lab-3d.svg' %}
 
-It may be easier to explore the data (after standardization) with the following interactive plots generated with the help of [three.js](https://threejs.org/) (webGL support is required to render these plots):
+It may be easier to explore the data with the following interactive plots generated with [three.js](https://threejs.org/) (webGL support is required):
 
 [Interactive plot in RGB colour space](/images/2018-11-17/rgb-3d-webgl.html)
 
@@ -158,11 +153,9 @@ It may be easier to explore the data (after standardization) with the following 
 
 The lack of green shades in the dataset makes it possible to project the data points onto a surface with little information loss. The result of SVD in RGB space is presented below:
 
-2D representation 
-
 {% include one-small-image.html center-img = '/images/2018-11-17/pca-all.svg' %}
 
-The parameters of the clustering methods were chosen semi-arbitrarily. The goal was to preserve the distinction between the white, grey and black cars, maintain over 10 shades of grey and have the cluster centers appear in positions that could be mapped to a line in a harmonious arrangement based on hue and brightness. All data was standardized (based on z-score) prior to clustering. The following plots show the clusters determined as well as their frequencies.
+The parameters of the clustering methods were chosen semi-arbitrarily. The goal was to preserve the distinction between the white, grey and black cars, maintain over 10 shades of grey and have the cluster centers appear in positions that could be mapped to a line in a harmonious arrangement based on hue and brightness. The following plots show the clusters determined as well as their frequencies.
 
 
 #### K-means and mean shift in RGB
@@ -179,7 +172,7 @@ The parameters of the clustering methods were chosen semi-arbitrarily. The goal 
 {% include two-small-images.html left-img = '/images/2018-11-17/lab-km-freq.svg' right-img = '/images/2018-11-17/lab-ms-freq.svg' %}
 
 
-K-means (n=30) in RGB produced a nice arrangement of cluster centres. Unfortunately, the algorithm yielded inaccurate cluster frequencies when checked against black and white cars. K-means in other colour spaces suffered the same fate. The performance of mean shift was rather disappointing as well.
+K-means (n=30) in RGB produced a nice arrangement of cluster centres. Unfortunately, the algorithm yielded inaccurate cluster frequencies when checked against black and white cars. K-means in other colour spaces suffered the same fate. The performance of mean shift was even more disappointing.
 
 #### Agglomerative clustering in RGB
 
@@ -197,7 +190,7 @@ I was able to obtain the most accurate segmentation with agglomerative clusterin
 
 ### Final result
 
-The result of clustering in RGB was easiest to parametrize in one dimension. It was done by first converting the cluster centres from RGB to HSV and getting the index of sorting by V (brightness). Then the index was separated into grey, blue, yellow and red segments (based on hue and saturation) which were then recombined into the final sort index which was used to construct the 1-D histogram.
+The result of clustering in RGB was easiest to parametrize in one dimension. It was done by first converting the cluster centres from RGB to HSV and getting the index of sorting by V (brightness). Then the index was separated into grey, blue, yellow and red segments (based on hue and saturation) which were then recombined into the final sort index which was used to construct the bar chart.
 
 ```python
 centers_hsv = rgb2hsv(centers)
@@ -219,4 +212,4 @@ sort_ind = np.concatenate((blue_ind[::-1], grey_ind, yel_ind, red_ind[::-1]))
 
 {% include one-med-image.html center-img = '/images/2018-11-17/rgb-ac-spectrum.svg' %}
 
-Please note black cars appear grey in the figure above because of reflections and the lack of [visual context](https://www.illusionsindex.org/ir/checkershadow). There may be additional distortions depending on your display settings. The grey frame represents the average tone of the asphalt
+Please note black cars appear grey in the figure above because of reflections and poor [visual context](https://www.illusionsindex.org/ir/checkershadow). It may be helpful to use the grey frame (the average tone of the asphalt) as the reference.
