@@ -29,6 +29,12 @@
 <rect x='1004.25' y='10' width='11.44' height='220' style='stroke-width: 0; stroke: none; fill: #b5505f;' />
 <rect x='1015.69' y='10' width='19.61' height='220' style='stroke-width: 0; stroke: none; fill: #9d4a58;' />
 <rect x='1035.29' y='10' width='14.71' height='220' style='stroke-width: 0; stroke: none; fill: #8f3c48;' />
-
-<rect x='45' y='5' width='1005' height='230' style='stroke-width: 10; stroke: #696969; fill: none' />
+<filter id="noise" filterUnits="objectBoundingBox" x="0%" y="0%" width="100%" height="100%">
+<feTurbulence type="fractalNoise" baseFrequency="0.8" numOctaves="10" ></feTurbulence>
+</filter>
+<rect x='45' y='5' width='1005' height='230' stroke-width='10' stroke='#696969' fill='none' />
+<rect x='40' y='0' width='1015' height='10' stroke-width='0' filter='url(#noise)' opacity='0.3' fill="none" />
+<rect x='40' y='230' width='1015' height='10' stroke-width='0' filter='url(#noise)' opacity='0.3' fill="none" />
+<rect x='40' y='10' width='10' height='220' stroke-width='0' filter='url(#noise)' opacity='0.3' fill="none" />
+<rect x='1045' y='10' width='10' height='220' stroke-width='0' filter='url(#noise)' opacity='0.3' fill="none" />
 </svg>
