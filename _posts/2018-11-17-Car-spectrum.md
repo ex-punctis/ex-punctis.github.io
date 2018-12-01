@@ -6,17 +6,19 @@ excerpt: According to a survey conducted in 2012 by PPG Industries, white (21%) 
 
 ## Popularity of car colours in the Greater Toronto Area
 
+*Updated on Nov 30, 2018*
+
 ### Table of contents
 - [Summary](#summary)
 - [Data collection](#data-collection)
-- [Data Analysis](#data-analysis)
-	- [Extraction of car colour information](#extraction-of-car-colour-information)
-	- [Clustering of car colours](#clustering-of-car-colours)
-		- [K-means and mean shift in RGB](#k-means-and-mean-shift-in-rgb)
-		- [K-means and mean shift in HCV](#k-means-and-mean-shift-in-hcv)
-		- [K-means and mean shift in L\*a\*b\*](#k-means-and-mean-shift-in-lab)
-		- [Agglomerative clustering in L\*a\*b\*](#agglomerative-clustering-in-lab)
-	- [Final result](#final-result)
+- [Car detection](#car-detection)
+- [Extraction of car colour information](#extraction-of-car-colour-information)
+- [Clustering of car colours](#clustering-of-car-colours)
+	- [K-means and mean shift in RGB](#k-means-and-mean-shift-in-rgb)
+	- [K-means and mean shift in HCV](#k-means-and-mean-shift-in-hcv)
+	- [K-means and mean shift in L\*a\*b\*](#k-means-and-mean-shift-in-lab)
+	- [Agglomerative clustering in L\*a\*b\*](#agglomerative-clustering-in-lab)
+- [Final result](#final-result)
 
 ### Summary
 
@@ -28,93 +30,28 @@ According to a [survey](https://web.archive.org/web/20121013184631/http://www.pp
 
 A Canon PowerShot S100 12 MP camera with [CHDK firmware](http://chdk.wikia.com/wiki/CHDK) was mounted on a tripod and zoomed on a portion of an intersection from above. Aperture, exposure and white balance were set manually. Photographs were taken automatically every 20 seconds while the battery lasted (approximately 90 min). Photographing was carried out between 2 and 4 pm DST for two days. Unfortunately, seasonal weather changes made it impossible to continue shooting. I manually eliminated the photographs with duplicate objects and was left with 141 unique jpg images at the end. 
 
-### Data analysis
+### Car detection
 
-#### Car detection
+The photographs were batch-cropped (`mogrify -crop 4000x2050+0+750 *.jpg`) and processed using [YOLOv3](https://pjreddie.com/darknet/yolo/) (with COCO weights). Originally, I ran YOLOv3 model natively on [darknet](https://pjreddie.com/darknet) which required some modifications. Then I discovered that YOLOv3 could be run directly from OpenCV and created scripts for that. If you would like to replicate my project, I recommend using the updated scripts as described below. If you have trouble with your version of OpenCV, you can try my [original method](Car-spectrum-old-method.html).
 
-The photographs were batch-cropped (`mogrify -crop 4000x2050+0+750 *.jpg`) and processed by [YOLOv3](https://pjreddie.com/darknet/yolo/) (with COCO weights). If you want to replicate this project, you can follow the link for detailed YOLOv3 instructions or simply run the following commands:
+First you need to download the darknet repository. Either [download](https://github.com/pjreddie/darknet) it as a zip file or use `git clone`. Assuming you keep git repositories in `~/git`, you can run the following commands:
 
-```
+```bash
+cd ~/git
 git clone https://github.com/pjreddie/darknet
 cd darknet
 wget https://pjreddie.com/media/files/yolov3.weights
 ```
 
-By default, the model will only draw boxes around the detected objects. In order to print file paths and box coordinates, the following changes need to be made.
+The last command downloads the weights of the model trained on the COCO dataset. If you can't run wget, simply follow the [link](https://pjreddie.com/media/files/yolov3.weights) in your browser and move the weights file to the darknet directory.
 
-1 Edit `void draw_detections(...)` in src/image.c: 
-
-1.1 At the top, after `int i,j;` add    
-```c
-int max_prob_class;
-float max_prob = 0;
-```
-
-1.2 Insert 
-
-```c
-if (dets[i].prob[j] > max_prob) {
-	max_prob = dets[i].prob[j];
-	max_prob_class = j; 
-}
-```
-
-in the following cycle       
-
-```c
-for(j = 0; j < classes; ++j){
-	if (dets[i].prob[j] > thresh){
-		if (class < 0) {
-			strcat(labelstr, names[j]);
-			class = j;
-		} else {
-			strcat(labelstr, ", ");
-			strcat(labelstr, names[j]);
-		}
-		// <<< insert HERE >>>   
-	}
-}
-```
-
-1.3 Add
-
-```c
-printf("{\"object\": \"%s\", \"probability\": \"%.2f\", \"x0\": \"%d\", \"y0\": \"%d\", \"x1\": \"%d\", \"y1\": \"%d\"}\n", names[max_prob_class], max_prob, left, top, right, bot); 
-```
-
-below
-
-```c
-if(left < 0) left = 0;
-if(right > im.w-1) right = im.w-1;
-if(top < 0) top = 0;
-if(bot > im.h-1) bot = im.h-1;
-```
-
-2 Edit `void test_detector(...)` in examples/detector.c: replace `printf("%s: Predicted in %f seconds.\n", input, what_time_is_it_now()-time);` with `printf("{\"path\": \"%s\"}\n", input);` 
-
-Run `make` after saving the changes to compile darknet.
-
-In order to run YOLOv3 with multiple images, we need a file containing the images' paths. It can be created like this:
-
-```bash
-cd <image directory>
-ls -d -1 $PWD/*.* | grep '.JPG' > imagelist.txt
-```
-Finally, image recognition can be run:
-
-```bash
-cd <darknet directory>
-./darknet detect cfg/yolov3.cfg yolov3.weights < /~/Desktop/images/imagelist.txt
-```
-
-The terminal output needs to be saved into `_detected_objects.txt` in the image directory.
-
-
+Open [1-detect-cars-via-opencv.ipynb](https://github.com/ex-punctis/car-colours/) and configure the input parameters in each cell before running the notebook. The first cell creates a file listing image paths. The second cell reads each image and runs object detection. The third cell saves the results of object detection.
 
 ### Extraction of car colour information
 
-The first cell in [cars-get-colours.ipynb](https://github.com/ex-punctis/car-colours/blob/master/cars-get-colours.ipynb) takes `_detected_objects.txt` (should be located in the directory with your images) and reads it line by line converting the data into dictionaries. Car objects are extracted from the original images, their height:width ratio is verified to be within 0.3 and 1 to reject the defective objects, and a line of pixels is sampled at 30% of the height from the top of the object. K-means is applied to the line array to find 5 colour clusters, and the cluster with the most points is presumed to be the colour of the car, which is appended to an array that is saved once all images have been processed.
+Open [2-extract-colours.ipynb](https://github.com/ex-punctis/car-colours/) (or `2__outdated__-extract-colours.ipynb` if you didn't use OpenCV for object detection), and configure the path of `detected_objects.txt` which was saved in the previous notebook. The first cell extracts car objects from the original images, verifies the height:width ratio is within 0.3 and 1 to reject the defective objects, and samples a line of pixels at 30% of the height from the top of the object. K-means is applied to the line array to find 5 colour clusters, and the cluster with the most points is presumed to be the colour of the car, which is appended to an array. The array is saved in the second cell of the notebook.
+
+If you would like to do a dry run on a small batch of randomly selected images set `debug = True`. This will make the script display each detected object, show its dimensions and the result of colour determination (note: ipython might crash if you try displaying too many objects). Once you are ready to process all objects in a single batch, disable the debug mode. 
 
 The image below illustrates successful colour determination.
 
@@ -128,11 +65,11 @@ In some cases K-means fails (sort of) even with good images:
 
 {% include one-small-image.html center-img = '/images/2018-11-17/kmeans-failure.png' %}
 
-The overall colour detection error rate for my dataset was approximately 6%. One limitation of determining colours with K-means clustering is the lack of context. Glare and changing lighting conditions affect the way a colour is encoded by the camera. However, colour perception in humans corrects for such variations by considering the environment. Perhaps I could minimize data variance by identifying the RGB values for the asphalt and then correcting the detected car colours using the same transformation that brings the colour of the asphalt to some standard value. It's something worth trying in the future (when I get the chance to collect more images).
+The overall colour detection error rate for my dataset was approximately 6%. One limitation of determining colours with K-means clustering is the lack of context. Glare and changing lighting conditions affect the way a colour is encoded by the camera. However, colour perception in humans corrects for such variations by considering the environment. Perhaps I could minimize data variance by identifying the RGB values of some points on the asphalt and then correcting the detected car colours using the same transformation that brings the colour of the asphalt to some standard value. It's something worth trying in the future (when I get the chance to collect more images).
 
 ### Clustering of car colours
 
-I decided to attempt a variety of scikit-learn [clustering methods](https://scikit-learn.org/stable/modules/clustering.html) on the standardized data in three different colour spaces (RGB, HCV and L\*a\*b\*). Below is the raw dataset plotted in each of the three coordinate systems.
+[3-analyze-colours.ipynb](https://github.com/ex-punctis/car-colours/) contains a collection of scripts implementing a variety of scikit-learn [clustering methods](https://scikit-learn.org/stable/modules/clustering.html). *Note: you can replicate the data presented using the supplied  [detected_colours.npy](https://github.com/ex-punctis/car-colours/)*. I attempted clustering on the standardized data in three different colour spaces (RGB, HCV and L\*a\*b\*). Below is the raw dataset plotted in each of the three coordinate systems.
 
 3D representation in RGB
 
