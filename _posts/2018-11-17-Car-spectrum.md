@@ -2,6 +2,7 @@
 layout: post
 title:  Popularity of car colours in the Greater Toronto Area
 excerpt: According to a survey conducted in 2012 by PPG Industries, white (21%) and black (19%) were the two most popular colours in North America followed closely by silver and grey (16% each). Red and blue accounted for 10 and 8% respectively. I decided to test this data by taking photographs of an intersection in Mississauga, Ontario and analyzing them with the help of YOLOv3 as well as OpenCV and scikit-learn libraries. 
+tags: [computer vision, clustering, visualisation]
 ---
 
 ## Popularity of car colours in the Greater Toronto Area

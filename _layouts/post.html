@@ -10,7 +10,9 @@
     {% include post-on-load-script.js %}
     <section class="main-content">
       	<p style="color:#888888; font-size:0.7rem; padding-top:1rem; padding-bottom:0rem;">
-	    {{ page.date | date: "%b %d, %Y" }} </p>
+	    {{ page.date | date: "%b %d, %Y" }} &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+	    tags: 	<i> | {% for tag in page.tags %}<a href="{{ site.url }}/tags/{{ tag | replace: " ", "-" }}.html">{{ tag }}</a> | {% endfor %}
+				</i> </p>
       	{{ content }}
 		<div id="expanded-image-container" class="expanded-image-container">
     		<img id="expanded-image-close-icon" src="/images/icons/x.svg" class="expanded-img-close-icon icon-animation" onclick="close_expanded_img()">

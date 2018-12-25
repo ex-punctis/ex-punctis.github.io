@@ -2,6 +2,7 @@
 layout: post
 title:  Analysis of submissions to /r/dataisbeautiful
 excerpt: Browsing reddit is a popular pastime for many people. Besides being an endless supply of entertainment, reddit is also a source of inspiration — especially /r/dataisbeautiful, a community of visual connoisseurs. Let's see if we can learn anything by analyzing 4716 submissions made over approximately 4 months.
+tags: [exploratory analysis]
 ---
 
 ## Analysis of submissions to /r/dataisbeautiful

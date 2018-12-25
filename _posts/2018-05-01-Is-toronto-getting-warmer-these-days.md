@@ -2,6 +2,7 @@
 layout: post
 title:  Is Toronto getting warmer these days?
 excerpt: Toronto residents like to complain about weather. For some, Toronto winters are too cold. For others, Toronto summers are too hot. Older people say it used to be colder in general. Who's right and who's wrong? Let's find out the answer using factual data.
+tags: [exploratory analysis]
 ---
 
 ## Is Toronto getting warmer these days?

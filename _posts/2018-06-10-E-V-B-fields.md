@@ -2,6 +2,7 @@
 layout: post
 title:  Visualization of E, V, B fields
 excerpt: Most physics textbooks illustrate electric and magnetic fields with field lines which are sets of parametrized curves with tangents defined by field vectors. Field lines are great for emphasizing the directional nature of E and B fields, however they fail to convey the magnitude of forces acting on charges by such fields. One way to overcome this issue is to add level curves indicating vector magnitude. 
+tags: [visualisation]
 ---
 
 ## Visualization of E, V, B fields
