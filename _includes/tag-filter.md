@@ -15,7 +15,7 @@
 	tag filter: 	| {% if page.tags == "all" %}
 							<b><a 	href="{{ site.url }}" style="background-color:{{ backgnd_col }}">all</a></b> |
 						{% else %} 
-							<a 	href="{{ site.url }}">all</a> |
+							<a 	href="{{ site.url }}">all</a>&nbsp;|
 						{% endif %}
 		{% for tag in uniqueTags %}
 			{% if tag == page.tags %}

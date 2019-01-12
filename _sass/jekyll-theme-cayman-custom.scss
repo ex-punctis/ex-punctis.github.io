@@ -620,6 +620,46 @@ img.icon-animation:hover {  opacity: 0.6; }
 	z-index: 10;
 }
 
+.canvas-wrapper {
+	display:block;
+	position: relative;
+    //margin-left:auto;
+    //margin-right:auto;
+    margin-top: 1rem;
+    margin-bottom: 1rem;
+    
+}
+
+.canvas-wrapped {
+	display:block;
+	position: relative;
+    margin-left:auto;
+    margin-right:auto;
+
+    @include small {
+		width:90vmin; 
+		height:90vmin;
+  	}
+  	
+    @include medium {
+		width:75vmin; 
+		height:75vmin;
+  	}
+  	  	
+    @include large {
+		width:65vmin; 
+		height:65vmin;
+  	}
+  	  	
+  	
+  	//border: 1px solid #cccccc;
+	/*border: 1px dash #eee;
+    border-radius: 8px;
+    padding: 2px;*/
+}
+
+
+
 .site-footer {
   text-align: center;
   padding-top: 1rem;
