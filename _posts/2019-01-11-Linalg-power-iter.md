@@ -66,40 +66,43 @@ button:focus {
 </style>
 
 <div class="canvas-wrapper">
-	<p><button id='animation_trigger' onclick="">Press to animate power iteration</button></p>
-	
-	<canvas id='vector_canvas' class="canvas-wrapped"></canvas>
+	<p><button id='animation_trigger_3'>Press to animate power iteration</button></p>
+	<canvas id='vector_canvas_3' class="canvas-wrapped"></canvas>
 </div> 
 
 <script>
     
 // *****************************************************************	
-	// user code
+
+	// initialize the scene_3
+	var scene_3 = new vtvt({canvas_id: "vector_canvas_3", grid_res: 16, circle_rad: 0.5, eig_col: "150, 150, 150", frame_duration: 300, anim_trigger_id: "animation_trigger_3"});
+
+	// add columns of matrix T
+	scene_3.addVector({coords: [2, -1], c: "50, 50, 170", draggable: true, label: "t1", visible: true});
+	scene_3.addVector({coords: [-1, 3], c: "70, 150, 70", draggable: true, label: "t2", visible: true});
+
+	// add input vector for power iteration algorithm
+	scene_3.addVector({coords: [-6, 1], c: "200, 100, 200", draggable: true, label: "u0"});
 	
-	// initialize the scene
-	var scene = new vtvt("vector_canvas", {grid_res: 16, circle_rad: 0.5, frame_duration: 250, show_eig: true, eig_col: "150, 150, 150", anim_trigger_id: "animation_trigger"});
+	// add the first animated vector (mapped to iter0)
+	scene_3.addAnimationFrame([{coords: [-6, 1], c: "200, 100, 200", label: "u0", 
+		mapping: function(){ return [scene_3.vectors[2].coord_x, scene_3.vectors[2].coord_y]} }]);
 
-	//columns of matrix T:
-	scene.addVector([2, -1], {c: "50, 50, 170", selectable: true, label: "t1", visible: true});
-	scene.addVector([-1, 3], {c: "70, 150, 70", selectable: true, label: "t2", visible: true});
-		
-    scene.addVector([2, 3], {c: "200, 100, 200", selectable: true, label: "u0"});
-    //create power iteration vectors
-    scene.addAnimationFrame([0, 0], {c: "200, 100, 200", label: "u0", mapping: function(){ return [scene.vectors[2].coord_x, scene.vectors[2].coord_y]} });
+	// add additional animated vectors (each mapped to the previous one)
+	for (let k = 0; k < 20; k++) {
+		let map_func = function() {
+			let x = scene_3.vectors[0].coord_x * scene_3.vectors_animated[k][0].coord_x + 
+					scene_3.vectors[1].coord_x * scene_3.vectors_animated[k][0].coord_y;
+			let y = scene_3.vectors[0].coord_y * scene_3.vectors_animated[k][0].coord_x + 
+					scene_3.vectors[1].coord_y * scene_3.vectors_animated[k][0].coord_y;
+			let norm = Math.sqrt(x*x + y*y);
+			return [x / norm * 4, y = y / norm * 4];
+		}	
+		// add vector to the animation sequence
+		scene_3.addAnimationFrame([ {coords: [1, 1], c: "200, 100, 200", label: `u${k+1}`, kind: 'custom', draw_line: true, mapping: map_func} ]);
+	}
 
-    for (var k = 0; k < 20; k++) {
-    	// we need to wrap the mapping function in order to copy the value of k
-    	function mapping_wrapper() {
-    		var i = k;
-    		return function() {
-    			var x = scene.vectors[0].coord_x * scene.vectors_animated[i].coord_x + scene.vectors[1].coord_x * scene.vectors_animated[i].coord_y;
-    			var y = scene.vectors[0].coord_y * scene.vectors_animated[i].coord_x + scene.vectors[1].coord_y * scene.vectors_animated[i].coord_y;
-    			var norm = Math.sqrt(x*x + y*y);
-    			return [x / norm * 4, y = y / norm * 4];
-    		}
-    	}	
-        
-        scene.addAnimationFrame([0, 0], {c: "200, 100, 200", label: `u${k+1}`, draw_line: true, mapping: mapping_wrapper() });
-    }
-    scene.render();	    
+	// render
+	scene_3.render();
+
 </script>
