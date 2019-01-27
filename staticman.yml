@@ -1,0 +1,21 @@
+comments:
+
+  allowedFields: ["name", "message"]
+  branch: "master"
+  commitMessage: "add [comment]: by {fields.name} <Staticman>\n\n{fields.permalink}#comment-{@id}"
+  filename: "{@id}"
+  path: "data/comments/{options.postId}"
+
+  format: "yaml"
+
+  generatedFields:
+    date:
+      type: date
+      options:
+        format: "timestamp"
+
+        
+  moderation: false
+  
+
+  requiredFields: ["name", "message"]
