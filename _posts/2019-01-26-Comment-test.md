@@ -13,6 +13,7 @@ Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor i
 
 
 <style>
+
 .form-container {
   display:block;
   position:relative;
@@ -25,6 +26,7 @@ Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor i
 
 .first-name {
   display:none;
+  background:#f3f6fa;
 }
 
 .last-name {
@@ -33,6 +35,8 @@ Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor i
   left:0px;
   width:100%;
   z-index:1;
+  background:#f3f6fa;
+  border:0px;
 }
 
 .nick {
@@ -41,32 +45,105 @@ Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor i
   top:0px;
   width:100%;
   z-index:10;
+  background:#f3f6fa;
+  border:0px;
 }
+
+input[type=text]:focus {
+  outline: none;
+}
+
+::placeholder { /* Chrome, Firefox, Opera, Safari 10.1+ */
+  color: #A04A4A4;
+  opacity: 1; /* Firefox */ }
+:-ms-input-placeholder { /* Internet Explorer 10-11 */
+  color: #A04A4A4; }
+::-ms-input-placeholder { /* Microsoft Edge */
+  color: #A04A4A4; }
 
 .comment-area {
   display:block;
   width:100%;
   height:auto;
-  
+  background:#f3f6fa;
+  border:0px;
 }
+
+.comment-area:focus {
+  outline: none;
+}
+
+
+.submit-button {
+	display: block;
+    position: relative;
+    background-color: #f3f6fa; 
+	color: black; 
+	border: 1px solid #c0c0c0; 
+	//border-radius: 5px; 
+	margin-top: 4px;
+
+}
+
+.submit-button:hover {
+	background-color: #F9FFFA; 
+}
+
+.submit-button:focus {
+  outline: none;
+}
+
+
+.comment-list {
+border: 1px solid #e7e7e7;
+background-color: #fff;
+padding: 20px;
+margin-bottom: 15px;
+}
+
+
 </style>
+
+### Comments
+
+
+
+{% assign subdir = page.id | url_encode  %}
+
+{{ subdir }} 
+
+{% assign comments = site.data.comments[subdir] %}
+
+{{ comments }}
+
+
+{% for comment in comments reversed %}
+{% assign commentData = comment[1] %}
+<div>
+{{ commentData.message | strip_html }}<br>
+From: {{ commentData.name }}<br>
+{{ commentData.date | date_to_long_string }}
+</div>
+{% endfor %}
+
 
 
 <form id="comment-form" action="https://dev.staticman.net/v3/entry/github/ex-punctis/ex-punctis.github.io/master/comments" method="post">
 
 <input name="options[redirect]" type="hidden" value="{{ site.url }}{{page.url}}">
-<input name="options[postId]" type="hidden" value="{{ page.id | replace:'/','-' }}">
+<input name="options[postId]" type="hidden" value="{{ page.id | url_encode }}">
 <input name="options[slug]" type="hidden" value="{{ page.slug }}"><br>
 
 <div class="form-container">
-    <input class = "first-name" name="fields[first_name]" autocomplete="off" type="text">
-    <input class = "last-name" name="fields[last_name]" placeholder="Last name" autocomplete="off" type="text">
-    <input class = "nick" name="fields[name]" type="text" placeholder="Nickname" autocomplete="off">
+    <input class = "first-name" name="fields[first_name]" autocomplete="off" type="text" maxlength="40">
+    <input class = "last-name" name="fields[last_name]" placeholder="Last name" autocomplete="off" type="text" maxlength="40">
+    <input class = "nick" name="fields[name]"  placeholder="Displayed name" autocomplete="off" type="text" maxlength="40">
 </div>
 
-<textarea id="comment-textarea" class="comment-area" rows="2" name="fields[message]" placeholder="Comment"></textarea>
-<input type="submit" value="Submit">
+<textarea id="comment-textarea" class="comment-area" rows="2" name="fields[message]" placeholder="Comment" maxlength="1000"></textarea>
+<button class="submit-button" onclick="submitForm();">Submit</button>
 </form>
+
 
 
 <script>
@@ -86,4 +163,10 @@ function expand(){
     },0);
 }
 
+function submitForm(){
+    document.getElementById("comment-form").submit();
+
+// add your comment will be withing several minutes
+
+}
 </script>

@@ -28,6 +28,7 @@ layout: default
 - [Feather SVG icons](https://feathericons.com)
 - [ggplot2](https://ggplot2.tidyverse.org/)
 - [three.js](https://threejs.org/)
+- [Staticman](https://staticman.net/)
 
 
 ### Public copyright licenses
