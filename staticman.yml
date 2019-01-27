@@ -4,7 +4,7 @@ comments:
   branch: "master"
   commitMessage: "add [comment]: by {fields.name} <Staticman>\n\n{fields.permalink}#comment-{@id}"
   filename: "{@id}"
-  path: "comments/{options.slug"
+  path: "comments/{options.slug}"
 
   format: "yaml"
 
