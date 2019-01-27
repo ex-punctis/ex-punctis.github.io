@@ -11,6 +11,12 @@ layout: default
 
 - [LinkedIn](https://www.linkedin.com/in/perederiy/)
 - [GitHub](https://github.com/ex-punctis?tab=repositories)
+- /u/got_data/ on [reddit](https://www.reddit.com)
+
+
+### Other resources
+
+[Instructables](https://www.instructables.com/id/IoT-Water-Alarm/)
 
 
 ### Credits
