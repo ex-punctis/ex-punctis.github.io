@@ -2,7 +2,7 @@
 layout: post
 title:  The real reason you use MSE and cross-entropy loss functions
 excerpt: No excerpt just yet 
-indexflag: true
+indexflag: false
 tag: [math notes]
 ---
 
