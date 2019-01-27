@@ -12,7 +12,7 @@ comments:
     date:
       type: date
       options:
-        format: "timestamp"
+        format: "timestamp-seconds"
 
         
   moderation: false

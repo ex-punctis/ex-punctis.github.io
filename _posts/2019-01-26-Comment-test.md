@@ -99,6 +99,11 @@ border: 1px solid #e7e7e7;
 background-color: #fff;
 padding: 20px;
 margin-bottom: 15px;
+
+list-style-type: none;
+  margin: 4px;
+  padding: 4px;
+
 }
 
 
@@ -106,24 +111,19 @@ margin-bottom: 15px;
 
 ### Comments
 
+{{ site.time | date: "%a, %b %d, %Y  %H:%M" }}
 
-
-{% assign subdir = page.id | url_encode  %}
-
-{{ subdir }} 
-
+{% assign subdir = page.id | replace: "/", ""  %}
 {% assign comments = site.data.comments[subdir] %}
-
-{{ comments }}
-
 
 {% for comment in comments reversed %}
 {% assign commentData = comment[1] %}
-<div>
-{{ commentData.message | strip_html }}<br>
-From: {{ commentData.name }}<br>
-{{ commentData.date | date_to_long_string }}
-</div>
+<li class = "comment-list">
+<p style="color:#222222;">{{ commentData.name }}</p>
+<p style="color:#CCCCCC;">{{ commentData.date | date: "%a, %b %d, %Y  %H:%M" }}</p>
+<p>{{ commentData.message | strip_html }}</p>
+
+</li>
 {% endfor %}
 
 
@@ -131,7 +131,7 @@ From: {{ commentData.name }}<br>
 <form id="comment-form" action="https://dev.staticman.net/v3/entry/github/ex-punctis/ex-punctis.github.io/master/comments" method="post">
 
 <input name="options[redirect]" type="hidden" value="{{ site.url }}{{page.url}}">
-<input name="options[postId]" type="hidden" value="{{ page.id | url_encode }}">
+<input name="options[postId]" type="hidden" value="{{ page.id | replace: "/", "" }}">
 <input name="options[slug]" type="hidden" value="{{ page.slug }}"><br>
 
 <div class="form-container">
