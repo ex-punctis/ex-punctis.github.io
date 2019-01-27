@@ -55,7 +55,7 @@ Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor i
 <form id="comment-form" action="https://dev.staticman.net/v3/entry/github/ex-punctis/ex-punctis.github.io/master/comments" method="post">
 
 <input name="options[redirect]" type="hidden" value="{{ site.url }}{{page.url}}">
-<input name="options[postID]" type="hidden" value="{{ page.id }}">
+<input name="options[postId]" type="hidden" value="{{ page.id }}">
 <input name="options[slug]" type="hidden" value="{{ page.slug }}"><br>
 
 <div class="form-container">
