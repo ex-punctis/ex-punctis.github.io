@@ -115,7 +115,7 @@ list-style-type: none;
 {% assign subdir = page.id | replace: "/", ""  %}
 {% assign comments = site.data.comments[subdir] %}
 
-{% for comment in comments reversed %}
+{% for comment in comments | sort_natural: 'date' %}
 {% assign commentData = comment[1] %}
 <li class = "comment-list">
 <p style="color:#222222;">{{ commentData.name }}</p>
