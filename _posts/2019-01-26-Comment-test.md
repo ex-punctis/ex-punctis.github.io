@@ -166,6 +166,8 @@ function expand(){
 function submitForm(){
     document.getElementById("comment-form").submit();
 
+// max comment length
+
 // add your comment will be withing several minutes
 
 }

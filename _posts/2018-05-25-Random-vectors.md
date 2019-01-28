@@ -3,6 +3,7 @@ layout: post
 title:  Relationship between random n-vectors at various n
 excerpt: Covariance and Pearson's correlation coefficient are two cornerstone measures of linear dependence in statistics. Both have geometrical interpretations. Sample covariance of variables is the dot product of two n-vectors whose components are formed from centred observations for each variable, scaled by the reciprocal of n-1. Correlation coefficient is the cosine of the angle between the two vectors. Their distributions depend on n. Here we will take a look at distributions of sample covariance, correlation coefficient as well as dot product, angle cosine, and angle between independent vectors with n ∈ {2, 3, 5, 10, 30} components ~N(0,1).
 tags: [math notes]
+mathjax_flag: true
 ---
 
 ## Relationship between random n-vectors at various n

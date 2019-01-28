@@ -1,13 +1,16 @@
 <!DOCTYPE html>
 <html lang="{{ site.lang | default: "en-CA" }}">
   <head>
-   	{% include head.html %}
+    {% include head.html %}
+    {% if page.mathjax_flag == true %}
+      <script type="text/javascript" async src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.4/MathJax.js?config=TeX-MML-AM_CHTML"></script>
+    {% endif %}
     {% seo %}
   </head>
   <body>
     {% include header.html %}
     {% include img-zoom.js %}
-    {% include post-on-load-script.js %}
+    <script type="text/javascript">{% include post-on-load-script.js %}</script>
     <section class="main-content">
       	<p style="color:#888888; font-size:0.7rem; padding-top:1rem; padding-bottom:0rem;">
 	    {{ page.date | date: "%b %d, %Y" }} &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;

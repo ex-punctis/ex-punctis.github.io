@@ -1,5 +1,3 @@
-<script type="text/javascript">
-
 //$(document).ready(function() {
 	//$(".expand-icon").fadeOut(100);
 	//$(".expand-icon").fadeIn(200);
@@ -14,7 +12,3 @@
 	//}, false);
 	//}
 //);
-
-
-</script>
-
