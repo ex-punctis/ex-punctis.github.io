@@ -3,7 +3,7 @@ layout: post
 title:  Commenting test
 excerpt: Testing staticman commenting
 indexflag: false
-tag: [test]
+tag:
 ---
 
 ## Comment test
@@ -111,7 +111,6 @@ list-style-type: none;
 
 ### Comments
 
-{{ site.time | date: "%a, %b %d, %Y  %H:%M" }}
 
 {% assign subdir = page.id | replace: "/", ""  %}
 {% assign comments = site.data.comments[subdir] %}

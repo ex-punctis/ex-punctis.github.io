@@ -1,15 +1,15 @@
 ---
 layout: post
-title:  The real reason you use MSE and cross-entropy loss functions
-excerpt: No excerpt just yet 
-indexflag: false
+title:  The real reason you use the MSE and cross-entropy loss functions
+excerpt: If you learned machine learning from MOOCs, there's a good chance you haven't been taught the true significance of the mean squared error and cross-entropy loss functions.
+indexflag: true
 tag: [math notes]
+mathjax_flag: true
 ---
 
 ## The real reason you use MSE and cross-entropy loss functions
 
-
-If your knowledge of machine learning methods comes from an online course, chances are you've been taught highly simplified math. It's not a huge issue; however, in some cases not knowing the proper math means missing important insights. For example, why do we default to using mean squared error loss in linear regression? Hint: it's not just because it's conveniently convex, and it's not because it represents the sum of Euclidean distances. Similarly, why do we use cross-entropy loss in logistic regression? The answer in both cases has to do with maximum likelihood estimation.
+If your knowledge of machine learning methods comes from an online course, chances are you've been taught highly simplified math. It's not an issue if you are interested primarily in gaining practical skills. However, if you tend to wonder why things are the way they are, not knowing the proper math can be tormenting at times since you end up missing important insights. For example, why do we default to using mean squared error loss in linear regression? Hint: it's not just because it's conveniently convex, and it's not because it represents the sum of Euclidean distances. Similarly, why do we use cross-entropy loss in logistic regression? The answer in both cases has to do with maximum likelihood estimation.
 
 The likelihood function (L) of some model parameter (or a combination of parameters) θ is defined as the probability of obtaining the observed data (O) estimated by the model with parameter(s) θ.
 
