@@ -21,7 +21,7 @@ function draw_expanded_img() {
 
 	imgExpanded.style.visibility = 'visible';
 
-	icon.style.left = (window.width-imgExpanded.width)/2+'px';
+	icon.style.left = ($(window).width()-imgExpanded.width)/2+'px';
 	icon.style.visibility = 'visible';
 }
 
@@ -51,7 +51,7 @@ function redraw_img_expanded() {
 		imgExpanded.width = maxWidth; 
 		imgExpanded.height = maxWidth/aspectRatio;
 	}
-	icon.style.left = (window.width-imgExpanded.width)/2+'px';
+	icon.style.left = ($(window).width()-imgExpanded.width)/2+'px';
 }
 
 // global variables
