@@ -115,8 +115,6 @@ list-style-type: none;
 <form id="comment-form" action="https://dev.staticman.net/v3/entry/github/ex-punctis/ex-punctis.github.io/master/comments" method="post">
 
 <input name="options[redirect]" type="hidden" value="{{ site.url }}{{page.url}}">
-<input name="options[postId]" type="hidden" value="{{ page.id | replace: "/", "" }}">
-<input name="options[slug]" type="hidden" value="{{ page.slug }}"><br>
 
 <div class="form-container">
     <input class = "nick" name="fields[name]"  placeholder="Displayed name" autocomplete="off" type="text" maxlength="40">
