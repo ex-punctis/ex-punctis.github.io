@@ -116,10 +116,14 @@ list-style-type: none;
 <form id="comment-form" action="https://dev.staticman.net/v3/entry/github/ex-punctis/ex-punctis.github.io/master/comments" method="post">
 
 <input name="options[redirect]" type="hidden" value="{{ site.url }}{{page.url}}">
+<input name="options[postId]" type="hidden" value="{{ page.id | replace: "/", "" }}">
 <input name="options[slug]" type="hidden" value="{{ page.slug }}"><br>
 
-<input class = "nick" name="fields[name]"  placeholder="Displayed name" autocomplete="off" type="text" maxlength="40">
-
+<div class="form-container">
+    <input class = "first-name" name="fields[first_name]" autocomplete="off" type="text" maxlength="40">
+    <input class = "last-name" name="fields[last_name]" placeholder="Last name" autocomplete="off" type="text" maxlength="40">
+    <input class = "nick" name="fields[name]"  placeholder="Displayed name" autocomplete="off" type="text" maxlength="40">
+</div>
 
 <textarea id="comment-textarea" class="comment-area" rows="2" name="fields[message]" placeholder="Comment" maxlength="1000"></textarea>
 <button class="submit-button" onclick="submitForm();">Submit</button>
