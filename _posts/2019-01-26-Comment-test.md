@@ -119,8 +119,6 @@ list-style-type: none;
 <input name="options[slug]" type="hidden" value="{{ page.slug }}"><br>
 
 <div class="form-container">
-    <input class = "first-name" name="fields[first_name]" autocomplete="off" type="text" maxlength="40">
-    <input class = "last-name" name="fields[last_name]" placeholder="Last name" autocomplete="off" type="text" maxlength="40">
     <input class = "nick" name="fields[name]"  placeholder="Displayed name" autocomplete="off" type="text" maxlength="40">
 </div>
 
