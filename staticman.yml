@@ -1,21 +1,14 @@
 comments:
-
   allowedFields: ["name", "message"]
   branch: "master"
   commitMessage: "new comment by Staticman"
-  filename: "comment_{options.slug}"
+  filename: "comment-{options.slug}"
   path: "_data/"
-
   format: "yaml"
-
   generatedFields:
     date:
       type: date
       options:
-        format: "timestamp-seconds"
-
-        
+        format: "timestamp-seconds"    
   moderation: false
-  
-
   requiredFields: ["name", "message"]
