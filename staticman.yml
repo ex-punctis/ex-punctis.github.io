@@ -7,15 +7,7 @@ comments:
   path: "_data/comments/"
 
   format: "yml"
-
-  generatedFields:
-    date:
-      type: date
-      options:
-        format: "timestamp-seconds"
-
         
   moderation: false
   
-
   requiredFields: ["name", "message"]
