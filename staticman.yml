@@ -2,11 +2,11 @@ comments:
 
   allowedFields: ["name", "message"]
   branch: "master"
-  commitMessage: "add [comment]: by {fields.name} <Staticman>\n\n{fields.permalink}#comment-{@id}"
+  commitMessage: "new comment by Staticman"
   filename: "comment_{@timestamp}"
   path: "_data/comments/{options.postId}"
 
-  format: "yaml"
+  format: "json"
 
   generatedFields:
     date:

@@ -112,21 +112,6 @@ list-style-type: none;
 ### Comments
 
 
-{% assign subdir = page.id | replace: "/", ""  %}
-{% assign comments = site.data.comments[subdir] %}
- 
-{% for comment in comments %}
-{% assign commentData = comment[1] %}
-<li class = "comment-list">
-<p style="color:#222222;">{{ commentData.name }}</p>
-<p style="color:#CCCCCC;">{{ commentData.date | date: "%a, %b %d, %Y  %H:%M" }}</p>
-<p>{{ commentData.message | strip_html }}</p>
-
-</li>
-{% endfor %}
-
-
-
 <form id="comment-form" action="https://dev.staticman.net/v3/entry/github/ex-punctis/ex-punctis.github.io/master/comments" method="post">
 
 <input name="options[redirect]" type="hidden" value="{{ site.url }}{{page.url}}">
