@@ -3,10 +3,10 @@ comments:
   allowedFields: ["name", "message"]
   branch: "master"
   commitMessage: "new comment by Staticman"
-  filename: "comment_{@timestamp}"
-  path: "_data/comments/{options.postId}"
+  filename: "comment-{@timestamp}"
+  path: "_data/comments/"
 
-  format: "json"
+  format: "yml"
 
   generatedFields:
     date:
