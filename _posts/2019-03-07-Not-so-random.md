@@ -72,8 +72,8 @@ Once you've become tired of watching your virtual money evaporate, press the "ra
 </div>
 
 <div class='centreContainer'><div id="log">
-	<div id='iteration'>Log messages</div>
-	<div id='prediction'>will</div>
+	<div id='iteration'>Begin pressing arrows</div>
+	<div id='prediction'>Log messages will</div>
 	<div id='guesspct'>appear here</div>
 </div></div>
 
