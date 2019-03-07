@@ -132,11 +132,19 @@ Source: [github repository](https://github.com/ex-punctis/not-so-random)
 	captureKeyFunc = function(evt) {
 		evt = evt || window.event;
 		evt.preventDefault();
-		if (evt.code == 'ArrowLeft') { lastKey = 0 }
-		if (evt.code == 'ArrowRight') { lastKey = 1; }
-		testPrediction();
-		updateAll();
-		predictNext()
+		if (evt.code == 'ArrowLeft') {
+			lastKey = 0;
+			testPrediction();
+			updateAll();
+			predictNext(); 
+		}
+		if (evt.code == 'ArrowRight') {
+			lastKey = 1;
+			testPrediction();
+			updateAll();
+			predictNext(); 
+		}
+		
 	};
 	document.onkeydown = captureKeyFunc;
 	
