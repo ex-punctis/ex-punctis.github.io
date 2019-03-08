@@ -53,7 +53,7 @@ tag: [js, visualisation]
 		color: black; 
 		border: 2px solid #888888; 
 		border-radius: 5px; 
-		padding: 7px 30px 7px 30px;
+		padding: 7px 20px 7px 20px;
 	}
 
 	button:focus { outline: none; }	
