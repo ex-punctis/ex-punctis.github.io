@@ -72,9 +72,9 @@ Once you've become tired of watching your virtual money evaporate, press the "ra
 </div>
 
 <div class='centreContainer'><div id="log">
-	<div id='iteration'>Begin pressing arrows</div>
-	<div id='prediction'>Log messages will</div>
-	<div id='guesspct'>appear here</div>
+	<div id='iteration'>Start pressing ← and → on your keyboard</div>
+	<div id='prediction'>(←/→ buttons above on touchscreen devices).</div>
+	<div id='guesspct'>Log messages will appear here.</div>
 </div></div>
 
 <div class='centreContainer'><div id="plotContainer"></div></div>
