@@ -59,7 +59,7 @@ tag: [js, visualisation]
 	button:focus { outline: none; }	
 </style>
 
-Let's play a game. You press ← and → as randomly as you can, and I will try to guess your next input. Use your keyboard or the buttons below.
+Let's play a game. You press ← and → as randomly as you can, and I will try to guess your next input. Use your keyboard or the buttons below (on touchscreen devices).
 
 Every time I guess right, I will take $1 from your virtual account. Every time I guess wrong, you'll get $1.05. If you are as random as you think, you'll be making virtual dough in no time. Don't worry, there is no cheating involved. I simply keep track of the patterns you produce and use them to predict your next move.
 
@@ -67,8 +67,8 @@ Once you've become tired of watching your virtual money evaporate, press the "ra
 
 <div style="text-align: center;"> 
 	<button id="randomize" onClick="randomHelpFunc(event)">randomize!</button>
-	<button id="left" onClick="captureBtnLeftFunc(event)">&nbsp;&nbsp;←&nbsp;&nbsp;</button>
-	<button id="right" onClick="captureBtnRightFunc(event)">&nbsp;&nbsp;→&nbsp;&nbsp;</button>
+	<button id="left" ontouchstart="captureBtnLeftFunc(event)">&nbsp;&nbsp;←&nbsp;&nbsp;</button>
+	<button id="right" ontouchstart="captureBtnRightFunc(event)">&nbsp;&nbsp;→&nbsp;&nbsp;</button>
 </div>
 
 <div class='centreContainer'><div id="log">
@@ -126,7 +126,7 @@ So how does it work exactly? Your fingers tend to repeat certain patterns even i
 		{ displayModeBar: false });
 
 	// prevent page springing and double-tap zoom
-	document.ontouchmove = function(event){ event.preventDefault(); }
+	//document.ontouchmove = function(event){ event.preventDefault(); }
 
 	// capture keyboard key
 	captureKeyFunc = function(evt) {
