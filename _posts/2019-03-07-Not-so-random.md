@@ -65,7 +65,7 @@ Every time I guess right, I will take $1 from your virtual account. Every time I
 
 Once you've become tired of watching your virtual money evaporate, press the "randomize" button below, and I will add 10 pseudo-random inputs on your behalf. **On average** (i.e. not all the time), this is going to earn you some money. Isn't it ironic that a pseudo-random number generator is more "random" than you are?
 
-*Update: I've added five custom events for google analytics to collect statistics on correct guesses after 100, 200, 300, 500 and 10000 inputs. If you'd rather not be counted, please load the html file from my [github repository](https://github.com/ex-punctis/not-so-random) instead.*
+*Update: I've added five custom events for google analytics to collect statistics on correct guesses after 100, 200, 300, 500 and 1000 inputs. If you'd rather not be counted, please load the html file from my [github repository](https://github.com/ex-punctis/not-so-random) instead.*
 
 <div style="text-align: center;"> 
 	<button id="randomize" onClick="randomHelpFunc(event)">randomize!</button>
