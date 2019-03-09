@@ -6,13 +6,13 @@ layout: default
 
 **Linea ex punctis** (meaning *lines from points* in Latin) is Ilya Perederiy's personal blog about data analysis.
 
+{% include announcement.md %}
 
 ### Contact info
 
 - [LinkedIn](https://www.linkedin.com/in/perederiy/)
 - [GitHub](https://github.com/ex-punctis?tab=repositories)
 - /u/got_data/ on [reddit](https://www.reddit.com)
-
 
 ### Other resources
 
