@@ -83,6 +83,15 @@ Once you've become tired of watching your virtual money evaporate, press the "ra
     
 So how does it work exactly? Your fingers tend to repeat certain patterns even if you don't notice it. The program keeps a database of each possible combination of 5 presses, and two counters are stored under each entry — one is for every zero that follows the combination, and the other one is for all the ones that follow this combination. So every time you press a key, an entry in the database gets updated. To make a prediction, the program needs only to look up the entry corresponding to the last 5 presses and decide by looking at the counters which key press is more likely to follow. The rest is up to Fortuna (velut luna). I've run this script with 200 pseudo-random inputs 100,000 times, and found that the distribution of correct guesses is approximately normal with µ=50% and σ=3.5% (this agrees with the binomial estimation, of course). The probability of the program guessing your inputs >57% (µ+2σ) of the time purely by chance is very slim, which suggests that you really aren't good at making random choices.
 
+*Update: I have some statistics collected through google analytics: 2700 data points for 100 key presses and 2000 data points for 200 key presses.*
+
+{% include one-small-image.html center-img = '/images/2019-03-07/box-plots.svg' %}
+
+*Let's compare the actual distributions of correct guesses with those expected for random inputs. Please note the actual data includes cases where visitors probed the algorithm with De Bruijn sequences or fed it with predictable patterns.*
+
+{% include two-small-images.html left-img = '/images/2019-03-07/histograms.svg' right-img = '/images/2019-03-07/histograms-random.svg' %}
+
+
 **Credits:** I got the idea from PBS Digital Studios Infinite Series on YouTube (a highly recommended channel!). One of the videos linked [this demo](http://people.ischool.berkeley.edu/~nick/aaronson-oracle/) which inspired me to experiment with the idea. I didn't dig deeply, but it seems my implementation (5-grams) ended up the same (or at least very similar). I've also tried 3-grams, 4-grams, and adaptive n-grams (n<6), but it seemed they did no better than the current 5-gram model. Although, to be honest, I didn't have the time to do thorough testing, so I may be wrong. The plot is powered by [plotly.js](https://plot.ly/javascript/).
 
 
