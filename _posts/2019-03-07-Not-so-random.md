@@ -65,7 +65,7 @@ Every time I guess right, I will take $1 from your virtual account. Every time I
 
 Once you've become tired of watching your virtual money evaporate, press the "randomize" button below, and I will add 10 pseudo-random inputs on your behalf. **On average** (i.e. not all the time), this is going to earn you some money. Isn't it ironic that a pseudo-random number generator is more "random" than you are?
 
-*Update: I added three custom metrics/events in google analytics to collect statistics on correct guesses after 100, 200 and 500 inputs. If you'd rather not be counted, please load the html file from my [github repository](https://github.com/ex-punctis/not-so-random) instead.*
+*Update: I've added five custom events for google analytics to collect statistics on correct guesses after 100, 200, 300, 500 and 10000 inputs. If you'd rather not be counted, please load the html file from my [github repository](https://github.com/ex-punctis/not-so-random) instead.*
 
 <div style="text-align: center;"> 
 	<button id="randomize" onClick="randomHelpFunc(event)">randomize!</button>
@@ -198,21 +198,30 @@ So how does it work exactly? Your fingers tend to repeat certain patterns even i
 	
 	// uupdate the web page and gram database
 	function updateAll() {
+		
 		let correctPct =  Math.round(correct/(correct+wrong+0.0001)*100);
+		
 
-
-		// send percentage statistics via google analytics at 100, 200 and 500 iterations
+		// send percentage statistics via google analytics at 100, 200, 300, 500, 1000 iterations
 		if (iteration==100) {
-			ga('set', 'metric1', correctPct);
-			ga('send', 'event', 'n=100', correctPct, correctPct);
+			let reportPct = Math.round(correct/(correct+wrong+0.0001)*1000)/10;
+			ga('send', 'event', 'n=100-2', reportPct, reportPct);
  		}
 		if (iteration==200) {
-			ga('set', 'metric2', correctPct);
-			ga('send', 'event', 'n=200', correctPct, correctPct)
+			let reportPct = Math.round(correct/(correct+wrong+0.0001)*1000)/10;
+			ga('send', 'event', 'n=200-2', reportPct, reportPct)
 		}
-		if (iteration==200) {
-			ga('set', 'metric3', correctPct);
-			ga('send', 'event', 'n=500', correctPct, correctPct)
+		if (iteration==300) {
+			let reportPct = Math.round(correct/(correct+wrong+0.0001)*1000)/10;
+			ga('send', 'event', 'n=300-2', reportPct, correctPct)
+		}
+		if (iteration==500) {
+			let reportPct = Math.round(correct/(correct+wrong+0.0001)*1000)/10;
+			ga('send', 'event', 'n=500-2', reportPct, reportPct)
+		}
+		if (iteration==1000) {
+			let reportPct = Math.round(correct/(correct+wrong+0.0001)*1000)/10;
+			ga('send', 'event', 'n=1000-2', reportPct, reportPct)
 		}
 
 		
