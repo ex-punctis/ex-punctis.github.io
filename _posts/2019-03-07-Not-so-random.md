@@ -87,7 +87,7 @@ So how does it work exactly? Your fingers tend to repeat certain patterns even i
 
 {% include one-small-image.html center-img = '/images/2019-03-07/box-plots.svg' %}
 
-*Let's compare the actual distributions of correct guesses with those expected for random inputs. Please note the actual data includes cases where visitors probed the algorithm with De Bruijn sequences or fed it with predictable patterns.*
+*Let's compare the actual distributions of correct guesses with those expected for random inputs. Please note the actual data includes cases where visitors probed the algorithm with De Bruijn sequences or fed it predictable patterns.*
 
 {% include two-small-images.html left-img = '/images/2019-03-07/histograms.svg' right-img = '/images/2019-03-07/histograms-random.svg' %}
 
