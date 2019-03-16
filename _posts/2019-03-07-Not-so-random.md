@@ -125,7 +125,7 @@ Let's compare the actual distributions of correct guesses with those expected fo
 	for (let i = 0; i<32; i++) { gramHistory[i] = {counter0: 0, counter1: 0}; } 
 
 	// array of 180 user inputs (left/right only!) to be sent to google analytics
-	//var inputArr =[];
+	var inputArr =[];
 	
 	// references to DOM elements
 	var iterLogElem = document.getElementById('iteration');
