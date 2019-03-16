@@ -65,7 +65,7 @@ Every time I guess right, I will take $1 from your virtual account. Every time I
 
 Once you've become tired of watching your virtual money evaporate, press the "randomize" button below, and I will add 10 pseudo-random inputs on your behalf. **On average** (i.e. not all the time), this is going to earn you some money. Isn't it ironic that a pseudo-random number generator is more "random" than you are?
 
-*Update: I've added five custom events for google analytics to collect statistics on correct guesses after 100, 200, 300, 500 and 1000 inputs. If you'd rather not be counted, please load the html file from my [github repository](https://github.com/ex-punctis/not-so-random) instead. Update 2: I've also started collecting the first 180 left-right inputs (anonymously). The purpose of this is to generate test data for an improved model.*
+*~~Update: I've added five custom events for google analytics to collect statistics on correct guesses after 100, 200, 300, 500 and 1000 inputs. If you'd rather not be counted, please load the html file from my [github repository](https://github.com/ex-punctis/not-so-random) instead. Update 2: I've also started collecting the first 180 left-right inputs (anonymously). The purpose of this is to generate test data for an improved model.~~ Update 3: I have more than 10,000 datapoints, so I've disabled game stats collection.*
 
 <div style="text-align: center;"> 
 	<button id="randomize" onClick="randomHelpFunc(event)">randomize!</button>
@@ -85,6 +85,8 @@ So how does it work exactly? Your fingers tend to repeat certain patterns even i
 
 *Edit:* Professor Ariel Rubinstein has kindly shared his paper co-authored with prof. Kfir Eliaz in 2011: [Edgar Allan Poe's riddle: framing effects in repeated matching pennies games](http://arielrubinstein.tau.ac.il/papers/84.pdf). I think you will enjoy reading it as much as a I did.
 
+*Edit 2:* I also recommend watching [this video](https://www.youtube.com/watch?v=tP-Ipsat90c) by Numberphile.
+
 *Update:* I have some statistics collected through google analytics: 2700 data points for 100 key presses and 2000 data points for 200 key presses.
 
 {% include one-small-image.html center-img = '/images/2019-03-07/box-plots.svg' %}
@@ -96,7 +98,7 @@ Let's compare the actual distributions of correct guesses with those expected fo
 
 
 
-**Credits:** I got the idea from PBS Digital Studios Infinite Series on YouTube (a highly recommended channel!). One of the videos linked [this demo](http://people.ischool.berkeley.edu/~nick/aaronson-oracle/) which inspired me to experiment with the idea. I didn't dig deeply, but it seems my implementation (5-grams) ended up the same (or at least very similar). I've also tried 3-grams, 4-grams, and adaptive n-grams (n<6), but it seemed they did no better than the current 5-gram model. Although, to be honest, I didn't have the time to do thorough testing, so I may be wrong. The plot is powered by [plotly.js](https://plot.ly/javascript/).
+**Credits:** I got the idea from [PBS Infinite Series channel](https://www.youtube.com/channel/UCs4aHmggTfFrpkPcWSaBN9g/videos) on YouTube (a highly recommended channel!). One of the videos linked [this demo](http://people.ischool.berkeley.edu/~nick/aaronson-oracle/) which inspired me to experiment with the idea. I didn't dig deeply, but it seems my implementation (5-grams) ended up the same (or at least very similar). I've also tried 3-grams, 4-grams, and adaptive n-grams (n<6), but it seemed they did no better than the current 5-gram model. Although, to be honest, I didn't have the time to do thorough testing, so I may be wrong. The plot is powered by [plotly.js](https://plot.ly/javascript/).
 
 
 **Source:** [github repository](https://github.com/ex-punctis/not-so-random)
@@ -123,7 +125,7 @@ Let's compare the actual distributions of correct guesses with those expected fo
 	for (let i = 0; i<32; i++) { gramHistory[i] = {counter0: 0, counter1: 0}; } 
 
 	// array of 180 user inputs (left/right only!) to be sent to google analytics
-	var inputArr =[];
+	//var inputArr =[];
 	
 	// references to DOM elements
 	var iterLogElem = document.getElementById('iteration');
@@ -224,34 +226,34 @@ Let's compare the actual distributions of correct guesses with those expected fo
 
 		// send percentage statistics via google analytics at 100, 200, 300, 500, 1000 iterations
 		// also send 180 user inputs (left/right) encoded as a string (6 inputs per character)
-		var inputStr = '';
-		if (iteration==100) {
-			let reportPct = Math.round(correct/(correct+wrong+0.0001)*1000)/10;
-			ga('send', 'event', 'n=100-2', reportPct, reportPct);
- 		}
-		if (iteration==180) {
-			for(i=0;i<inputArr.length;i=i+6){
-				inputStr += String.fromCharCode(48+inputArr[i]*32+inputArr[i+1]*16+inputArr[i+2]*8+inputArr[i+3]*4+inputArr[i+4]*2+inputArr[i+5]); 
-			}
-			ga('send', 'event', 'inputs', inputStr, '');
-		}
+		// var inputStr = '';
+		// if (iteration==100) {
+		// 	let reportPct = Math.round(correct/(correct+wrong+0.0001)*1000)/10;
+		// 	ga('send', 'event', 'n=100-2', reportPct, reportPct);
+ 		// }
+		// if (iteration==180) {
+		// 	for(i=0;i<inputArr.length;i=i+6){
+		// 		inputStr += String.fromCharCode(48+inputArr[i]*32+inputArr[i+1]*16+inputArr[i+2]*8+inputArr[i+3]*4+inputArr[i+4]*2+inputArr[i+5]); 
+		// 	}
+		// 	ga('send', 'event', 'inputs', inputStr, '');
+		// }
 
-		if (iteration==200) {
-			let reportPct = Math.round(correct/(correct+wrong+0.0001)*1000)/10;
-			ga('send', 'event', 'n=200-2', reportPct, reportPct);
-		}
-		if (iteration==300) {
-			let reportPct = Math.round(correct/(correct+wrong+0.0001)*1000)/10;
-			ga('send', 'event', 'n=300-2', reportPct, correctPct);
-		}
-		if (iteration==500) {
-			let reportPct = Math.round(correct/(correct+wrong+0.0001)*1000)/10;
-			ga('send', 'event', 'n=500-2', reportPct, reportPct);
-		}
-		if (iteration==1000) {
-			let reportPct = Math.round(correct/(correct+wrong+0.0001)*1000)/10;
-			ga('send', 'event', 'n=1000-2', reportPct, reportPct);
-		}
+		// if (iteration==200) {
+		// 	let reportPct = Math.round(correct/(correct+wrong+0.0001)*1000)/10;
+		// 	ga('send', 'event', 'n=200-2', reportPct, reportPct);
+		// }
+		// if (iteration==300) {
+		// 	let reportPct = Math.round(correct/(correct+wrong+0.0001)*1000)/10;
+		// 	ga('send', 'event', 'n=300-2', reportPct, correctPct);
+		// }
+		// if (iteration==500) {
+		// 	let reportPct = Math.round(correct/(correct+wrong+0.0001)*1000)/10;
+		// 	ga('send', 'event', 'n=500-2', reportPct, reportPct);
+		// }
+		// if (iteration==1000) {
+		// 	let reportPct = Math.round(correct/(correct+wrong+0.0001)*1000)/10;
+		// 	ga('send', 'event', 'n=1000-2', reportPct, reportPct);
+		// }
 
 		
 		// if you want a 100% IFRS compliant financial document, uncomment the code below, 
@@ -277,7 +279,7 @@ Let's compare the actual distributions of correct guesses with those expected fo
 		iteration++; // increment iteration counter
 
 		// update the 5-gram history
-		gramHistory[historyIndex].counter0 += (1-lastKey)*(1-lastKey);
+		gramHistory[historyIndex].counter0 += (1-lastKey);
 		gramHistory[historyIndex].counter1  += lastKey;
 	
 		// update the 5-gram buffer
