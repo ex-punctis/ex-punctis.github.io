@@ -1,7 +1,7 @@
 ---
 layout: post
 title:  Follow up on "How random can you be?"
-excerpt: I collected thousands of outcomes and used them to evaluate the performance of the guesser
+excerpt: I have collected thousands of outcomes and used them to evaluate the performance of the guesser.
 indexflag: true
 mathjax_flag: false
 tag: [analysis]
