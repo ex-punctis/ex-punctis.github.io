@@ -87,7 +87,7 @@ So how does it work exactly? Your fingers tend to repeat certain patterns even i
 
 *Edit 2:* I also recommend watching [this video](https://www.youtube.com/watch?v=tP-Ipsat90c) by Numberphile.
 
-*Update:* [Statistics](https://www.expunctis.com/2019/04/01/Not-so-random-followup.html)
+*Update:* [Follow-up (Statistics)](https://www.expunctis.com/2019/04/01/Not-so-random-followup.html)
 
 **Credits:** I got the idea from [PBS Infinite Series channel](https://www.youtube.com/channel/UCs4aHmggTfFrpkPcWSaBN9g/videos) on YouTube (a highly recommended channel!). One of the videos linked [this demo](http://people.ischool.berkeley.edu/~nick/aaronson-oracle/) which inspired me to experiment with the idea. I didn't dig deeply, but it seems my implementation (5-grams) ended up the same (or at least very similar). I've also tried 3-grams, 4-grams, and adaptive n-grams (n<6), but it seemed they did no better than the current 5-gram model. Although, to be honest, I didn't have the time to do thorough testing, so I may be wrong. The plot is powered by [plotly.js](https://plot.ly/javascript/).
 

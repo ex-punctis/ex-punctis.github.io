@@ -1,13 +1,13 @@
 ---
 layout: post
-title:  Follow up on "How random can you be?"
+title:  Follow-up on "How random can you be?"
 excerpt: I have collected thousands of outcomes and used them to evaluate the performance of the guesser.
 indexflag: true
 mathjax_flag: false
 tag: [analysis]
 ---
 
-##  Follow up on "How random can you be?"
+##  Follow-up on "How random can you be?"
 
 I have collected thousands of data points (percentages of correct guesses) via Google Analytics. As expected, most visitors didn't play past 100-200 key presses, and only the most dedicated players reached 1000 key presses.
 
