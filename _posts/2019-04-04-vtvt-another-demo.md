@@ -6,9 +6,9 @@ indexflag: false
 tag: [visualisation]
 ---
 
-### Vector Transformation Visualization Tool (vtvt) — another demos
+### Vector Transformation Visualization Tool (vtvt) — another demo
 
-This demo visualizes numerical solutions of the pendulum equation by [3blue1brown](https://www.youtube.com/watch?v=p_di4Zn4wz4) (14:28). Position the starting points by dragging and click "animate" to see the solutions (2,000 iterations). The iteration step is 0.005 by default, and can be adjusted in your browser's console by changing variable `step`. The length and the dampening coefficient can be changed with the sliders underneath the canvas. The axes are theta and theta-dot (I apologize, it's not possible to label them with vtvt yet). This demo runs a bit "heavy" on older mobile devices.
+This demo visualizes numerical solutions of the pendulum equation by [3blue1brown](https://www.youtube.com/watch?v=p_di4Zn4wz4) (14:28). Position the starting points by dragging them, and click "animate" to see the solutions (2,000 iterations). The iteration step is 0.005 by default, and can be adjusted in your browser's console by changing variable `step`. The length of the pendulum and the dampening coefficient can be changed with the sliders underneath the canvas. The axes are theta and theta-dot (I apologize, it's not possible to label them with vtvt yet). This demo runs a bit "heavy" on older mobile devices.
 
 <script>
 {% include vtvt.js %}
