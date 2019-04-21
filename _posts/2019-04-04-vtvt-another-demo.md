@@ -1,14 +1,22 @@
 ---
 layout: post
 title:  Vector Transformation Visualization Tool (vtvt) — another demo
-excerpt: Visualisation of numerical solutions of the pendulum equation by [3blue1brown]
-indexflag: false
-tag: [visualisation]
+excerpt: Visualisation of numerical solutions of the pendulum equation by 3blue1brown
+indexflag: true
+tag: [visualisation, js]
 ---
 
 ### Vector Transformation Visualization Tool (vtvt) — another demo
 
-This demo visualizes numerical solutions of the pendulum equation by [3blue1brown](https://www.youtube.com/watch?v=p_di4Zn4wz4) (14:28). Position the starting points by dragging them, and click "animate" to see the solutions (2,000 iterations). The iteration step is 0.005 by default, and can be adjusted in your browser's console by changing variable `step`. The length of the pendulum and the dampening coefficient can be changed with the sliders underneath the canvas. The axes are theta and theta-dot (I apologize, it's not possible to label them with vtvt yet). This demo runs a bit "heavy" on older mobile devices.
+This demo visualizes numerical solutions of the pendulum equation by [3blue1brown](https://www.youtube.com/watch?v=p_di4Zn4wz4) (14:28). 
+
+Instructions:
+
+Position the starting point in the phase space (angle θ, angular velocity θ′) by dragging it. The starting pendulum position (L sin θ, -L cos θ) will be adjusted automatically based on the position in the phase space. Click "animate" to see the solution (2,000 iterations). Please note the current version of vtvt doesn't disable the animation control button while an animation sequence is being played, so it's best not to press the button again until the current animation sequence is over.
+
+The iteration step is 0.005 by default, and can be adjusted in your browser's console by changing variable `step`. The length of the pendulum and the dampening coefficient can be changed with the sliders underneath the canvas. 
+
+Please note this demo may run a bit "heavy" on older mobile devices.
 
 <script>
 {% include vtvt.js %}
@@ -67,7 +75,7 @@ This demo visualizes numerical solutions of the pendulum equation by [3blue1brow
 	<label for="muSlider" id="muValue">1.0</label></div>
 <div class="slidercontainer">
 	<label for="lSlider">L: </label>
-	<input type="range" id="lSlider" min="0.5" max="9.9" value="4" step="0.1" class="slider">
+	<input type="range" id="lSlider" min="0.5" max="7.9" value="4" step="0.1" class="slider">
 	<label for="lSlider" id="lValue">4.0</label>
 </div>
 
@@ -104,29 +112,65 @@ This demo visualizes numerical solutions of the pendulum equation by [3blue1brow
 
 
 	// initialize the scene
-	var scene = new vtvt({canvas_id: "vector_canvas", grid_res: 16, circle_rad: 0.5, show_matrix: false, show_eig: false, frame_duration: 0, anim_trigger_id: "animation_trigger"});
+	var scene = new vtvt({canvas_id: "vector_canvas", grid_res: 16, circle_rad: 0.8, point_rad: 0.07, show_matrix: false, show_eig: false, frame_duration: 0, anim_trigger_id: "animation_trigger"});
 
-	var numPoints = 4;
-	var colours=[];
-	// add starting points
-	for (let i = 0; i < numPoints; i+=1) {  
-		// setup colour
-		let cos = Math.cos(Math.random() * 2 * Math.PI);
-		let sin = Math.cos(Math.random() * 2 * Math.PI);
-		let r = 150 + 100*cos; //(phase shift 0º)
-		let g = 150 + 100*(-0.5*cos - 0.866*sin); //(phase shift 120º)
-		let b = 150 + 100*(-0.5*cos + 0.866*sin); //(phase shift 240º)
-		// save colour into an array
-		colours.push(`${Math.round(r)}, ${Math.round(g)}, ${Math.round(b)}`);
-		// add point
-		scene.addVector({
-			coords: [Math.random()*16-8,Math.random()*16-8],
-			c: colours[i], 
-			draggable: true, 
-			kind: 'point',
-			visible: true}); 
-	}
-		
+	// add starting point
+	scene.addVector({
+		coords: [Math.random()*16-8,Math.random()*16-8],
+		c: '50,50,200', 
+		draggable: true, 
+		kind: 'point',
+		visible: true,
+		label: ['(θ',String.fromCharCode(0+48+8272),', ', 'θ\′', String.fromCharCode(0+48+8272), ')'].join('')
+	}); 
+	
+	// add pendulum
+	scene.addVector({
+		draggable: false, 
+		kind: 'custom',
+		draw_arrow: false,
+		draw_point: true,
+		draw_stem: true,
+		draw_line: false,
+		visible: true,
+		label: ['L(sin θ', String.fromCharCode(0+48+8272), ', ', '-cos θ', String.fromCharCode(0+48+8272), ')'].join(''),
+		mapping: function () {
+			return {
+				mapX: l*Math.sin(scene.vectors[0].coord_x),
+				mapY: -l*Math.cos(scene.vectors[0].coord_x)
+			};
+		}
+	}); 
+	
+
+	// add axis labels using invisible vectors (a hack)
+	scene.addVector({
+		coords:[7.5,0.01],
+		c:[50,50,50],
+		draggable: false, 
+		kind: 'custom',
+		draw_arrow: false,
+		draw_point: false,
+		draw_stem: false,
+		draw_line: false,
+		visible: true,
+		label: 'θ'
+	});
+
+	scene.addVector({
+		coords:[0.01,7.5],
+		c:[50,50,50],
+		draggable: false, 
+		kind: 'custom',
+		draw_arrow: false,
+		draw_point: false,
+		draw_stem: false,
+		draw_line: false,
+		visible: true,
+		label: 'θ\′'
+	});
+
+	
 	// create vector field vectors at [j,k] whose coords and colour update based on mu and l
 	for (let j = -8; j < 9; j+=0.5) {  
 		for (let k = -8; k < 9; k+=0.5) {     
@@ -142,34 +186,66 @@ This demo visualizes numerical solutions of the pendulum equation by [3blue1brow
 			scene.addVector({origin: [j,k], c:'220,220,220', kind: 'vector', mapping: vec_map });
 		}
 	}
-	
-			// add animation vectors
-			let tempArr=[];
-			for (let i = 0; i < numPoints; i+=1) { 
-				tempArr.push(
-					{c: colours[i], 
-					kind: 'point', 
-					mapping:function() {
-								return {mapX: scene.vectors[i].coord_x,
-										mapY: scene.vectors[i].coord_y };
-							} 
-					} )
-			}
-			scene.addAnimationFrame(tempArr); 
-			for (let i = 1; i<2000; i++) {
-					let tempArr=[];
-					for (let j = 0; j < numPoints; j+=1) {
-						tempArr.push(
-							{c: colours[j], kind: 'point', mapping: function() {
-								let x = scene.vectors_animated[i-1][j].coord_x;
-								let y = scene.vectors_animated[i-1][j].coord_y;
-								return {mapX: x + y*step, 
-										mapY: y - (mu*y + g/l*Math.sin(x))*step }
-								}    
-							} )
+
+					
+	// add animation vectors
+	let tempArr=[];
+	scene.addAnimationFrame([
+		{
+			c: '50,50,200', 
+			kind: 'point', 
+			mapping:function() {
+				return {mapX: scene.vectors[0].coord_x,
+						mapY: scene.vectors[0].coord_y };
+				} 
+		}, {
+			c: '50,50,200', 
+			draggable: false, 
+			kind: 'custom',
+			draw_arrow: false,
+			draw_point: true,
+			draw_stem: true,
+			draw_line: false,
+			visible: true,
+			label: ['L(sin θ', String.fromCharCode(0+48+8272), ', ', '-cos θ', String.fromCharCode(0+48+8272), ')'].join(''),
+			mapping: function () {
+				return {mapX: l*Math.sin(scene.vectors[0].coord_x),
+						mapY: -l*Math.cos(scene.vectors[0].coord_x) };
 				}
-					scene.addAnimationFrame(tempArr);
+		}
+	]); 
+
+
+	for (let i = 1; i<2000; i++) {
+		scene.addAnimationFrame([
+			{
+				c: '50,50,200', 
+				kind: 'point', 
+				mapping: function() {
+					let x = scene.vectors_animated[i-1][0].coord_x; // theta coordinate
+					let y = scene.vectors_animated[i-1][0].coord_y; // theta dot coordinate
+					return {mapX: x + y*step, 
+							mapY: y - (mu*y + g/l*Math.sin(x))*step }
+				}    
+			},{
+				c: '50,50,200', 
+				draggable: false, 
+				kind: 'custom',
+				draw_arrow: false,
+				draw_point: true,
+				draw_stem: true,
+				draw_line: false,
+				visible: true,
+				label: 'L(sin θ, -cos θ)',
+				mapping: function () {
+					let x = scene.vectors_animated[i-1][0].coord_x;
+					let y = scene.vectors_animated[i-1][0].coord_y;
+					return {mapX: l*Math.sin(x + y*step),
+							mapY: -l*Math.cos(x + y*step) };
+				}
 			}
+		]);
+	}
 
 	// render
 	scene.render();
