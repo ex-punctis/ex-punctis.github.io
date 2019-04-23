@@ -117,15 +117,17 @@ Please note this demo may run a bit "heavy" on older mobile devices.
 	// add starting point
 	scene.addVector({
 		coords: [Math.random()*16-8,Math.random()*16-8],
-		c: '50,50,200', 
+		//c: '60,50,230', 
+		c:'0,0,0',
 		draggable: true, 
 		kind: 'point',
 		visible: true,
-		label: ['(θ',String.fromCharCode(0+48+8272),', ', 'θ\′', String.fromCharCode(0+48+8272), ')'].join('')
+		label: ['(θ',String.fromCharCode(48+8272),', ', 'θ\′', String.fromCharCode(48+8272), ')'].join('')
 	}); 
 	
-	// add pendulum
+	// add starting pendulum
 	scene.addVector({
+		c: '140,140,140', 
 		draggable: false, 
 		kind: 'custom',
 		draw_arrow: false,
@@ -133,20 +135,19 @@ Please note this demo may run a bit "heavy" on older mobile devices.
 		draw_stem: true,
 		draw_line: false,
 		visible: true,
-		label: ['L(sin θ', String.fromCharCode(0+48+8272), ', ', '-cos θ', String.fromCharCode(0+48+8272), ')'].join(''),
-		mapping: function () {
+		label: ['L(sin θ', String.fromCharCode(48+8272), ', ', '-cos θ', String.fromCharCode(48+8272), ')'].join(''),
+		map_coords: function () {
 			return {
 				mapX: l*Math.sin(scene.vectors[0].coord_x),
 				mapY: -l*Math.cos(scene.vectors[0].coord_x)
 			};
 		}
 	}); 
-	
 
 	// add axis labels using invisible vectors (a hack)
 	scene.addVector({
 		coords:[7.5,0.01],
-		c:[50,50,50],
+		c:[80,80,80],
 		draggable: false, 
 		kind: 'custom',
 		draw_arrow: false,
@@ -159,7 +160,7 @@ Please note this demo may run a bit "heavy" on older mobile devices.
 
 	scene.addVector({
 		coords:[0.01,7.5],
-		c:[50,50,50],
+		c:[80,80,80],
 		draggable: false, 
 		kind: 'custom',
 		draw_arrow: false,
@@ -170,11 +171,12 @@ Please note this demo may run a bit "heavy" on older mobile devices.
 		label: 'θ\′'
 	});
 
+	//scene.addVector(  {coords: [-5, 5], c: '0,30,255', draggable: true, kind: 'point', label: 'START' } );
 	
 	// create vector field vectors at [j,k] whose coords and colour update based on mu and l
 	for (let j = -8; j < 9; j+=0.5) {  
 		for (let k = -8; k < 9; k+=0.5) {     
-			// coordinate mapping function
+			// coordinate map_coords function
 			let vec_map = function() {
 				let x = k;
 				let y = -mu*k - g/l*Math.sin(j);
@@ -183,23 +185,37 @@ Please note this demo may run a bit "heavy" on older mobile devices.
 				y = y/norm/2;
 				return {mapX: x, mapY: y} ;
 			}
-			scene.addVector({origin: [j,k], c:'220,220,220', kind: 'vector', mapping: vec_map });
+			
+			// determine colour based on norm (won't update itself based on mu and l!)
+			let colour = function() {
+				let max_norm = Math.sqrt(scene.grid_res*scene.grid_res/4 + Math.pow(mu*scene.grid_res/2 + g/l,2));
+				let x = k;
+				let y = -mu*k - g/l*Math.sin(j);
+				let norm = Math.sqrt(x*x+y*y);
+				
+				let red = 155+100*norm/max_norm;
+				let green = 255-120*Math.abs(0.5-norm/max_norm);
+				let blue = 255-100*norm/max_norm;
+			return `${Math.round(red)}, ${Math.round(green)}, ${Math.round(blue)}`;
+			}
+
+			scene.addVector({origin: [j,k], c:'220,220,220', kind: 'vector', map_coords: vec_map, map_col: colour });
 		}
 	}
 
 					
 	// add animation vectors
-	let tempArr=[];
 	scene.addAnimationFrame([
 		{
-			c: '50,50,200', 
+			//c: '60,50,230',
+			c:'0,0,0', 
 			kind: 'point', 
-			mapping:function() {
+			map_coords:function() {
 				return {mapX: scene.vectors[0].coord_x,
 						mapY: scene.vectors[0].coord_y };
 				} 
 		}, {
-			c: '50,50,200', 
+			c: '0,0,0', 
 			draggable: false, 
 			kind: 'custom',
 			draw_arrow: false,
@@ -207,8 +223,8 @@ Please note this demo may run a bit "heavy" on older mobile devices.
 			draw_stem: true,
 			draw_line: false,
 			visible: true,
-			label: ['L(sin θ', String.fromCharCode(0+48+8272), ', ', '-cos θ', String.fromCharCode(0+48+8272), ')'].join(''),
-			mapping: function () {
+			//label: ['L(sin θ', String.fromCharCode(48+8272), ', ', '-cos θ', String.fromCharCode(48+8272), ')'].join(''),
+			map_coords: function () {
 				return {mapX: l*Math.sin(scene.vectors[0].coord_x),
 						mapY: -l*Math.cos(scene.vectors[0].coord_x) };
 				}
@@ -219,16 +235,16 @@ Please note this demo may run a bit "heavy" on older mobile devices.
 	for (let i = 1; i<2000; i++) {
 		scene.addAnimationFrame([
 			{
-				c: '50,50,200', 
+				c: '0,0,0', 
 				kind: 'point', 
-				mapping: function() {
-					let x = scene.vectors_animated[i-1][0].coord_x; // theta coordinate
-					let y = scene.vectors_animated[i-1][0].coord_y; // theta dot coordinate
+				map_coords: function() {
+					let x = scene.vectors_animated[i-1][0].coord_x;
+					let y = scene.vectors_animated[i-1][0].coord_y;
 					return {mapX: x + y*step, 
 							mapY: y - (mu*y + g/l*Math.sin(x))*step }
 				}    
-			},{
-				c: '50,50,200', 
+			}, {
+				c: '0,0,0', 
 				draggable: false, 
 				kind: 'custom',
 				draw_arrow: false,
@@ -236,16 +252,18 @@ Please note this demo may run a bit "heavy" on older mobile devices.
 				draw_stem: true,
 				draw_line: false,
 				visible: true,
-				label: 'L(sin θ, -cos θ)',
-				mapping: function () {
+				//label: ['L(sin θ', String.fromCharCode(48+8272), ', ', 'cos θ', String.fromCharCode(48+8272), ')'].join(''),
+				map_coords: function () {
 					let x = scene.vectors_animated[i-1][0].coord_x;
 					let y = scene.vectors_animated[i-1][0].coord_y;
 					return {mapX: l*Math.sin(x + y*step),
 							mapY: -l*Math.cos(x + y*step) };
-				}
+					}
 			}
 		]);
 	}
+
+	
 
 	// render
 	scene.render();

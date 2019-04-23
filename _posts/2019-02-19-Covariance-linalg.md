@@ -93,7 +93,7 @@ Removing correlation is the goal of principal component analysis (PCA), therefor
             kind: 'point'}); 
     }
     // define mapping of vector 0 (invisible) to construct a covariance matrix 
-    scene_7.vectors[0].mapping = function() {  
+    scene_7.vectors[0].map_coords = function() {  
         let sumX = 0, sumY = 0, sumX2 = 0, sumY2 = 0, sumXY = 0;
         for (let k = 2; k < numPoints+2; k++) {  
             sumX    += scene_7.vectors[k].coord_x;
@@ -104,7 +104,7 @@ Removing correlation is the goal of principal component analysis (PCA), therefor
         return {mapX: (sumX2-sumX*sumX/numPoints)/numPoints, mapY: (sumXY-sumX*sumY/numPoints)/numPoints};    
     }
     // define mapping of vector 1 (invisible) to construct a covariance matrix 
-    scene_7.vectors[1].mapping = function() {  
+    scene_7.vectors[1].map_coords = function() {  
         let sumX = 0, sumY = 0, sumX2 = 0, sumY2 = 0, sumXY = 0;
         for (let k = 2; k < numPoints+2; k++) {        
             sumX    += scene_7.vectors[k].coord_x;
