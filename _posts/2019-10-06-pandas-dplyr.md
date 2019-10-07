@@ -2,7 +2,7 @@
 layout: post
 title:  "Transitioning from dplyr to pandas the easy way. Part 1: mutate()"
 excerpt: dplyr for R is a wonderful package for data manipulation... but sometimes you have no choice but to work with pandas instead. Fortunately we can make pandas more dplyr-like by adding custom methods.
-indexflag: true
+indexflag: false
 tag: [exploratory analysis, dplyr, pandas]
 ---
 
