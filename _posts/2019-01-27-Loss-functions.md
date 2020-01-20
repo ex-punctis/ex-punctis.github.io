@@ -2,8 +2,10 @@
 layout: post
 title:  The real reason you use the MSE and cross-entropy loss functions
 excerpt: If you learned machine learning from MOOCs, there's a good chance you haven't been taught the true significance of the mean squared error and cross-entropy loss functions.
+image: /images/2019-01-27/MSE.png
 indexflag: true
 tag: [math notes]
+suggested: Abstract-art
 mathjax_flag: true
 ---
 

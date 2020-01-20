@@ -2,6 +2,8 @@
 layout: post
 title:  Covariance matrix and principal component analysis — an intuitive linear algebra approach
 excerpt: Let's take a close look at the covariance matrix using basic (unrigorous) linear algebra and investigate the connection between its eigen-vectors and a particular rotation tranformation. We can then have fun with an interactive visualisation of principal component analysis.
+image: /images/2019-02-19/pca.gif
+suggested: Loss-functions
 indexflag: true
 mathjax_flag: true
 tag: [math notes, visualisation]

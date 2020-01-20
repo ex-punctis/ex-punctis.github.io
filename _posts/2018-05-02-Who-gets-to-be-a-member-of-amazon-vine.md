@@ -2,6 +2,7 @@
 layout: post
 title:  Who gets to be a member of Amazon Vine?
 excerpt: Amazon Vine is a program that matches companies/sellers with select reviewers among Amazon customers. Membership is given by invitation only. According to Amazon, reviewers are selected based on the helpfulness of their reviews, but the exact criteria are not revealed to the public. I decided to investigate what it takes to get an invitation to Amazon Vine by analyzing the publicly available data for the top 10,000 reviewers...
+image: /images/2018-05-02/number-reviews.svg
 tags: [exploratory analysis]
 ---
 

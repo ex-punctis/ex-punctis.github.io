@@ -687,3 +687,86 @@ img.icon-animation:hover {  opacity: 0.6; }
 .site-footer-credits {
   color: $blockquote-text-color;
 }
+
+
+
+
+/* Post index: create two equal columns that floats next to each other */
+.index-column-left {
+  float: left;
+    @include large {
+      width: 250px;
+      padding-top: 10px;
+      padding-right: 10px;
+      padding-bottom: 10px;
+    }
+    @include medium {
+      width: 200px;
+      padding-top: 10px;
+      padding-right: 10px;
+      padding-bottom: 10px;
+    } 
+    @include small {
+      width: 30%;
+      padding-top: 7px;
+      padding-right: 8px;
+      padding-bottom: 4px;
+    }
+}
+
+.index-column-right {
+
+  @include large {
+    padding-top: 9px;
+    //padding-left:10px;
+  }
+  @include medium {
+    padding-top: 9px;
+    //padding-left:10px;
+  } 
+  @include small {
+    padding-top: 4px;
+    //padding-left: 5px;
+  }
+
+}
+
+// .index-row {
+//   margin-bottom:0px;
+// }
+
+/* Clear floats after the columns */
+.index-row:after {
+  content: "";
+  display: table;
+  clear: both;
+}
+
+.index-img {
+  margin-left: auto;
+	margin-right: auto;
+  display: block;
+  width:100%;
+  max-width:100%;
+}
+
+
+.suggested-column-right {
+
+  @include large {
+    //width: 700px;
+    padding-top: 9px;
+    //padding-left:10px;
+  }
+  @include medium {
+    //width:500px;
+    padding-top: 9px;
+    //padding-left:10px;
+  } 
+  @include small {
+    //width:100%;
+    padding-top: 4px;
+    //padding-left: 5px;
+  }
+
+}

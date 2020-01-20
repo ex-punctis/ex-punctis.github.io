@@ -2,7 +2,9 @@
 layout: post
 title:  How random can you be?
 excerpt: Suppose I asked you to generate a random sequence of ones and zeroes. Every time you add another 1 or 0 to the sequence, I am going to predict your next choice. Do you think you can make your sequence random enough that I fail to guess more than ~50% correct? Read this post to find out. Spoiler — you are not so random.
+image: /images/2019-03-07/demo.gif
 indexflag: true
+suggested: Abstract-art
 mathjax_flag: false
 tag: [js, visualisation]
 ---

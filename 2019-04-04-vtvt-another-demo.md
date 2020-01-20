@@ -2,10 +2,8 @@
 layout: post
 title:  Vector Transformation Visualization Tool (vtvt) — another demo
 excerpt: Visualisation of numerical solutions of the pendulum equation by 3blue1brown
-image: /images/2019-04-04/pendulum.jpg
 indexflag: true
 tag: [visualisation, js]
-suggested: vtvt-demo
 ---
 
 ### Vector Transformation Visualization Tool (vtvt) — another demo

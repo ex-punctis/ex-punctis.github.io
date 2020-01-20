@@ -2,12 +2,17 @@
 layout: post
 title:  Follow-up on "How random can you be?"
 excerpt: I have collected thousands of outcomes and used them to evaluate the performance of the guesser.
+image: /images/2019-04-01/histograms.png
 indexflag: true
+suggested: Abstract-art
+
 mathjax_flag: false
 tag: [exploratory analysis]
 ---
 
 ##  Follow-up on "How random can you be?"
+
+[Original post](https://www.expunctis.com/2019/03/07/Not-so-random.html)
 
 I have collected thousands of data points (percentages of correct guesses) via Google Analytics. As expected, most visitors didn't play past 100-200 key presses, and only the most dedicated players reached 1000 key presses.
 

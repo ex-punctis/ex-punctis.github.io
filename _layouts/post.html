@@ -21,7 +21,36 @@
     		<img id="expanded-image-close-icon" src="/images/icons/x.svg" class="expanded-img-close-icon icon-animation" onclick="close_expanded_img()">
 	  	</div>
 		<div id="expanded-image-outer-veil" class="expanded-img-outer-veil" onclick="close_expanded_img();"></div>
-      {% include footer.html %}
+    
+
+
+    {% if page.suggested %}
+      {% assign thepost = site.posts | where:"slug", page.suggested %}
+      {% for post in thepost %}
+        <hr>
+        <div style="border:1px solid #DDDDDD; padding:10px;">
+        <h4 style="color:green;">Suggested post:</h4>
+        <div class="index-row">
+          <span class="post-meta" style="color:#888888; font-size:0.7rem; padding-top:1rem; padding-bottom:0.5rem; line-height:0.75;">
+            {{ post.date | date: "%b %d, %Y" }}: </span><br>
+          <span class="post-index"><a href="{{ post.url }}"><b>{{ post.title }}</b></a></span><br>
+        
+          {% if post.image %}
+            <div class="index-column-left">
+              <img src="{{ post.image }}" class="index-img">
+            </div>
+          {% endif %}
+          <div class="index-column-right">
+            <span class="post-index" style="font-weight: lighter; color:#333333;">{{ post.excerpt }}</span><br>
+          </div>
+          
+        </div>
+      </div>
+      {% endfor %}
+
+      
+    {% endif %}
+    {% include footer.html %}
     </section>
     {% if site.google_analytics %}
 		{% include google_analytics.js %}

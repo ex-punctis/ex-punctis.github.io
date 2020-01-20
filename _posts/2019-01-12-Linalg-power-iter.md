@@ -2,7 +2,9 @@
 layout: post
 title:  Power iteration algorithm — a visualization
 excerpt: The power method is a simple iterative algorithm used to find eigenvectors of a matrix. I used vtvt to create a visualization of this algorithm. 
+image: /images/2019-01-12/power-iter-index-img.png
 tag: [math notes, visualisation]
+suggested: Loss-functions
 mathjax_flag: true
 ---
 
