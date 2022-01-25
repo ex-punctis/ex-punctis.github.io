@@ -14,7 +14,7 @@ I came across [https://www.deeplearning.ai/ai-notes/optimization/](https://www.d
 
 It wasn't difficult to reproduce the method in Python with Keras/TF. However, it wasn't very spectacular in a jupyter notebook, so I decided to make my own implementation in JavaScript. Experiments with vanilla js showed it was achievable but CPU-costly. Fortunately, thanks to [Tensorflow.js](https://js.tensorflow.org/api/latest/), I had the option of getting GPU acceleration through WebGL. Even without a GPU, it should be more efficient than vanilla js thanks to incorporation of WebAssembly code. To add interactivity, I used mouse/touch coordinates as extra inputs to the neural net (scroll down for the architecture diagram).
 
-<script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs@1.5.1/dist/tf.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs@2.0.0/dist/tf.min.js"></script>
 <script>
 {% include abstract-art-cppn.js %}
 </script>
