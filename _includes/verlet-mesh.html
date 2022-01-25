@@ -1,0 +1,305 @@
+
+<style>
+  body {
+  /*     background: #000000 !important; */
+  }
+
+  #canvas {
+    outline: solid;
+    outline-width: 1px;
+    outline-color: blue;
+  }
+</style>
+
+	<canvas id="canvas" width="600" height="600"></canvas>
+<!-- partial -->
+  <script>
+    // helper class of Verlet points
+    class Point {
+      constructor(x, y, pinnedFlag=false) {
+        this.curPosX = x;
+        this.curPosY = y;
+        this.prevPosX = this.curPosX;
+        this.prevPosY = this.curPosY;
+        this.pinned = pinnedFlag;
+      }
+
+      updatePos(){
+        if (!this.pinned) {
+          let posTempX = this.curPosX;
+          let posTempY = this.curPosY;
+          this.curPosX += dampCoef*(this.curPosX - this.prevPosX);
+          this.curPosY += dampCoef*(this.curPosY - this.prevPosY);
+          this.curPosY += gravity*step*step;
+          this.prevPosX = posTempX;
+          this.prevPosY = posTempY;
+        }
+      }
+    }
+
+    // helper class of Verlet sticks
+    class Stick {
+
+      constructor(pointA, pointB, halfLen = 0.51) {
+        this.pointA = pointA;
+        this.pointB = pointB;
+        this.halfLen = halfLen;
+      }
+
+      correctPos() {
+        let centrePointX = (this.pointA.curPosX + this.pointB.curPosX)/2;
+        let centrePointY = (this.pointA.curPosY + this.pointB.curPosY)/2;
+        let orientX = this.pointA.curPosX - this.pointB.curPosX;
+        let orientY = this.pointA.curPosY - this.pointB.curPosY;
+        let orientNormTemp = Math.sqrt(orientX**2 + orientY**2);
+        orientX = orientX / orientNormTemp * this.halfLen;
+        orientY = orientY / orientNormTemp * this.halfLen;
+
+        if(!this.pointA.pinned){
+          this.pointA.curPosX = centrePointX + orientX;
+          this.pointA.curPosY = centrePointY + orientY;
+        }
+        if(!this.pointB.pinned){
+          this.pointB.curPosX = centrePointX - orientX;
+          this.pointB.curPosY = centrePointY - orientY;
+        }
+      }
+    }
+
+
+
+
+    class Scene {
+    // this class renders and handles events
+
+      constructor(canvasName, rows, cols) {
+
+        this.canvas = document.getElementById(canvasName);
+        this.rows = rows;
+        this.cols = cols;
+
+        // canvas setup
+
+        this.ctx = this.canvas.getContext("2d");
+        let rect = this.canvas.getBoundingClientRect();
+        this.canvas.width = rect.width * devicePixelRatio;
+        this.canvas.height = rect.height * devicePixelRatio;
+        // const scale = 1;
+        // this.ctx.scale(devicePixelRatio*scale, devicePixelRatio*scale);
+        this.canvas.style.width = rect.width + 'px';
+        this.canvas.style.height = rect.height + 'px';
+
+        this.canvasPos = this.canvas.getBoundingClientRect();
+        this.selectedPointInd = undefined;
+        this.selectionOffsetX = undefined;
+        this.selectionOffsetY = undefined;
+
+
+        this.points = [];
+        this.sticks = [];
+
+        // click capture radius
+        this.clickDistSq = 0.5*(this.canvas.width/this.cols)**2;
+
+        // prepare event functions bound to the scop of this instance
+        // arrow funcs can be used instead, e.g.
+        // this._onMouseDown = (event) => this.onMouseDown(event);
+        this._onMouseDown = this.onMouseDown.bind(this);
+        this._deselectPoint = this.deselectPoint.bind(this);
+        this._onMouseMove = this.onMouseMove.bind(this);
+        this._onTouchStart = this.onTouchStart.bind(this);
+        this._onTouchMove = this.onTouchMove.bind(this);
+
+        this.canvas.addEventListener("mousedown", this._onMouseDown);
+        this.canvas.addEventListener("touchstart", this._onTouchStart);
+
+        window.requestAnimationFrame(this._render = this.render.bind(this));
+      }
+
+
+      simulate() {
+        for (var p of this.points) { p.updatePos();  }
+        for (var s of this.sticks) { s.correctPos(); }
+      }
+
+      render() {
+        for (let i=0; i<3; i++) { this.simulate(); }
+
+        this.ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+        // render all sticks one by one
+        // for (var s of this.sticks) {
+        //   this.ctx.beginPath();
+        //   this.ctx.moveTo(~~s.pointA.curPosX, ~~(this.canvas.height - s.pointA.curPosY));
+        //   this.ctx.lineTo(~~s.pointB.curPosX, ~~(this.canvas.height - s.pointB.curPosY));
+        //   this.ctx.stroke();
+        // }
+
+        // render horizontal and vertical lines one at a time
+        // render horizontal lines, every other point
+        for (let i=0; i<this.rows; i=i+2) {
+          this.ctx.beginPath();
+          this.ctx.moveTo(
+            ~~this.points[i*this.cols].curPosX,
+            ~~(this.canvas.height - this.points[i*this.cols].curPosY));
+          for (let j=1; j<this.cols; j++) {
+            this.ctx.lineTo(
+              ~~this.points[i*this.cols+j].curPosX,
+              ~~(this.canvas.height - this.points[i*this.cols+j].curPosY) );
+            this.ctx.moveTo(
+              ~~this.points[i*this.cols+j].curPosX,
+              ~~(this.canvas.height - this.points[i*this.cols+j].curPosY) );
+          }
+          this.ctx.stroke();
+        }
+        // render vertical lines
+        for (let j=0; j<this.cols; j=j+2){
+          this.ctx.beginPath();
+          this.ctx.moveTo(
+            ~~this.points[j].curPosX,
+            ~~(this.canvas.height - this.points[j].curPosY) );
+          for (let i=1; i<this.rows; i++) {
+            this.ctx.lineTo(
+              ~~this.points[i*this.cols+j].curPosX,
+              ~~(this.canvas.height - this.points[i*this.cols+j].curPosY) );
+            this.ctx.moveTo(
+              ~~this.points[i*this.cols+j].curPosX,
+              ~~(this.canvas.height - this.points[i*this.cols+j].curPosY) );
+          }
+          this.ctx.stroke();
+        }
+        window.requestAnimationFrame(this._render);
+
+      }
+
+      onMouseDown(event) {
+        this.x = 2*(event.clientX - this.canvasPos.left);
+        this.y = this.canvas.height - 2*(event.clientY - this.canvasPos.top);
+        this.selectPoint(this.x, this.y);
+      }
+
+      onTouchStart(event) {
+    		event.preventDefault();
+        this.x = 2*(event.touches[0].clientX - this.canvasPos.left);
+        this.y = this.canvas.height - 2*(event.touches[0].clientY - this.canvasPos.top);
+        this.selectPoint(this.x, this.y);
+    	}
+
+      checkHit(p, x,y) {
+        return ( ((p.curPosX-x)**2 + (p.curPosY-y)**2) < this.clickDistSq );
+      }
+
+      selectPoint(x, y) {
+        for (var i in this.points) {
+          if (this.checkHit(this.points[i], x,y) ) {
+            this.selectedPointInd = i;
+            this.points[i].pinned = true;
+            this.selectionOffsetX = x - this.points[i].curPosX;
+            this.selectionOffsetY = y - this.points[i].curPosY;
+
+            this.canvas.removeEventListener("mousedown", this._onMouseDown);
+            this.canvas.removeEventListener("touchstart", this._onTouchStart);
+
+            this.canvas.addEventListener("mouseup",   this._deselectPoint);
+            this.canvas.addEventListener("touchend",   this._deselectPoint);
+
+            this.canvas.addEventListener("mousemove", this._onMouseMove);
+            this.canvas.addEventListener("touchmove", this._onTouchMove);
+
+
+            return;
+          }
+        }
+      }
+
+      onMouseMove(event) {
+        let x = 2*(event.clientX - this.canvasPos.left - this.selectionOffsetX);
+        let y = this.canvas.height - 2*(event.clientY - this.canvasPos.top - this.selectionOffsetY);
+        this.points[this.selectedPointInd].curPosX = ~~x;
+        this.points[this.selectedPointInd].curPosY = ~~y;
+      }
+
+      onTouchMove(event) {
+    		event.preventDefault();
+        let x = 2*(event.touches[0].clientX - this.canvasPos.left - this.selectionOffsetX);
+        let y = this.canvas.height - 2*(event.touches[0].clientY - this.canvasPos.top - this.selectionOffsetY);
+        this.points[this.selectedPointInd].curPosX = ~~x;
+        this.points[this.selectedPointInd].curPosY = ~~y;
+    	}
+
+      deselectPoint(event) {
+        if (this.selectedPointInd !== undefined) {
+          this.points[this.selectedPointInd].pinned = false;
+          this.selectedPointInd = undefined;
+        }
+        this.canvas.removeEventListener("mousemove", this._onMouseMove);
+        this.canvas.removeEventListener("touchmove", this._onTouchMove);
+        this.canvas.removeEventListener("mouseup",   this._deselectPoint);
+        this.canvas.removeEventListener("touchend",   this._deselectPoint);
+        this.canvas.addEventListener("mousedown", this._onMouseDown);
+        this.canvas.addEventListener("touchstart", this._onTouchStart);
+
+      }
+    }
+
+
+
+    // initialization
+
+    const rows = 40*2-1;
+    const cols = 53*2-1;
+    const step = 1/5;
+    const gravity = -0.5;
+    const dampCoef = 0.999;
+
+    scn = new Scene("canvas", rows, cols);
+
+
+    // 2d mesh setup
+
+    // add points
+    for (let i=0; i<rows; i++) {
+      for (let j=0; j<cols; j++) {
+        scn.points.push(
+          new Point(
+            scn.canvas.width*(0.1 + j/cols*0.8),
+            scn.canvas.height*0.95 - scn.canvas.width/cols*0.8*i
+          )
+        );
+      }
+    }
+
+    // pin some of the points
+    for (let i=0; i<cols; i=i+4) {
+      scn.points[i].pinned = true;
+    }
+
+    // add horizontal sticks
+    for (let i=0; i<rows; i++) {
+      for (let j=0; j<cols-1; j++) {
+        scn.sticks.push(
+          new Stick(
+            scn.points[i*cols+j],
+            scn.points[i*cols+j+1],
+            Math.sqrt((scn.points[i*cols+j+1].curPosX - scn.points[i*cols+j].curPosX)**2 +
+                      (scn.points[i*cols+j+1].curPosY - scn.points[i*cols+j].curPosY)**2)/2
+          )
+        );
+      }
+    }
+
+    // add vertical sticks
+    for (let i=0; i<rows*cols-cols; i++){
+      scn.sticks.push(
+        new Stick(
+          scn.points[i],
+          scn.points[i+cols],
+          Math.sqrt((scn.points[i+cols].curPosX - scn.points[i].curPosX)**2 +
+                    (scn.points[i+cols].curPosY - scn.points[i].curPosY)**2)/2
+        )
+      );
+    }
+  </script>
+
+</body>
+</html>
